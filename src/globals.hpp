@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include "MotorH.hpp"
+#include "pros/imu.hpp"
 
 
 using namespace pros;
@@ -19,6 +20,7 @@ extern bool unlocked;
 extern Vision sensor;
 extern ADIDigitalOut solenoid;
 extern int power;
+extern Imu imu;
 
 // - Config -
 extern std::vector<std::string> mapKeys;
@@ -55,6 +57,8 @@ extern lv_obj_t * keypad;
 extern lv_obj_t * manualText;
 extern lv_obj_t * visionResponse;
 extern lv_obj_t * visionResponse2;
+
+extern lv_obj_t * buttonBG;
 
 extern lv_obj_t * autoInfo;
 

@@ -1,3 +1,4 @@
+#include "display/lv_core/lv_obj.h"
 #include "display/lv_objx/lv_label.h"
 #include "main.h"
 #include "globals.hpp"
@@ -41,7 +42,8 @@ lv_res_t toggle_button(lv_obj_t * btn) {
 lv_res_t start3(lv_obj_t * btn) {
 
     spawn = 3;
-    lv_label_set_text(autoInfo, ("3, " + std::to_string(color)).c_str());
+    lv_label_set_text(autoInfo, "Roller Start");
+    lv_obj_set_hidden(buttonBG, true);
 
     return LV_RES_OK;
 }
@@ -102,7 +104,7 @@ lv_res_t startAuto(lv_obj_t * btn) {
 	} else if (spawn == 2) {
 		Task t(startAuto2);
 	} else {
-		printToConsole("HELP DAD HELP");
+		printToConsole("I let u down dad ☹");
 	}
     return LV_RES_OK;
 }
@@ -112,7 +114,8 @@ lv_res_t start2(lv_obj_t * btn) {
 
     spawn = 2;
 
-    lv_label_set_text(autoInfo, ("2, " + std::to_string(color)).c_str());
+    lv_label_set_text(autoInfo, "Non Roller Start");
+    lv_obj_set_hidden(buttonBG, true);
 
     return LV_RES_OK;
 }

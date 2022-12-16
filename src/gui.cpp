@@ -1,4 +1,5 @@
 #include "display/lv_core/lv_obj.h"
+#include "display/lv_core/lv_style.h"
 #include "display/lv_misc/lv_color.h"
 #include "display/lv_objx/lv_bar.h"
 #include "display/lv_objx/lv_img.h"
@@ -23,6 +24,7 @@ std::string constoleT = "";
 pros::Vision sensor (11);
 c::adi_gyro_t gyro = c::adi_gyro_init(1, 0.1);
 bool inAuto = false;
+Imu imu(15);
 int color = 0;
 
 int power = 20;
@@ -93,8 +95,7 @@ void initGui() {
     createButton(0-10, 100, 150, 35, btn_click_action, mainScreen, "Auto");
     createButton(-155-10, 100, 150, 35, btn_click_action, mainScreen, "Manual");
     createButton(155-10, 100, 150, 35, btn_click_action, mainScreen, "Config");
-//break
-    // createButton(-100, -100, 150, 35, toggle_button, mainScreen, "Toggle solenoid");
+
 
     console = lv_obj_create(mainScreen, NULL);
     lv_obj_set_pos(console, 280+50 + 25, 0);
@@ -142,15 +143,15 @@ void initGui() {
     lv_obj_set_size(autoInfo, 150, 0);
     lv_obj_set_style(autoInfo, &lab);
 
-    createButton(55, 55, 100, 35, start3, autoScreen, "Set 3");
-    createButton(-55, 55, 100, 35, start2, autoScreen, "Set 2");
 
-    createButton(55, -55, 100, 35, blue, autoScreen, "Blue");
-    createButton(-55, -55, 100, 35, red, autoScreen, "Forward");
-
-    createButton(0, 0, 100, 35, startAuto, autoScreen, "Start Auto");
+    buttonBG = lv_obj_create(mainScreen, NULL);
+    lv_obj_set_size(buttonBG, 300, 200);
+    lv_obj_align(buttonBG, mainScreen, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_style(buttonBG, &lv_style_pretty);
 
 
+    createButton(55, 55, 100, 35, start3, buttonBG, "Set 3");
+    createButton(-55, 55, 100, 35, start2, buttonBG, "Set 2");
 
 
     // Creates buttons and labels for each item saved in config
