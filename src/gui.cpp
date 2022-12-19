@@ -47,6 +47,7 @@ lv_obj_t * nextPage;
 lv_obj_t * visionResponse;
 lv_obj_t * visionResponse2;
 
+
 std::string passcode;
 
 lv_style_t myButtonStyleREL; //relesed style

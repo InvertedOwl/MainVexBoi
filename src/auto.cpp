@@ -135,8 +135,8 @@ void backDist(int mmDist) {
 
 void rotateClockwise(int degrees) {
 
-    float kP = 1.0f;
-    float kD = 0.1f;
+    float kP = 1.5f;
+    float kD = 0.085f;
 
     float current = imu.get_heading();
     float target = current + degrees;
@@ -149,7 +149,7 @@ void rotateClockwise(int degrees) {
 
     // PD loop
     while (std::abs(error) > 1) {
-        printToConsole(std::to_string(error));
+        current = imu.get_heading();
 
         error = target-current;
         error = fix180(error);
@@ -204,6 +204,6 @@ void startAuto2() {
 void startAuto3() {
     getRoller();
     backDist(18);
-    rotateClockwise(125);
+    rotateClockwise(90);
     shoot(2, 85);
 }

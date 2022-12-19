@@ -78,6 +78,8 @@ void opcontrol() {
 		master.clear_line(1);
 		master.set_text(1, 0, std::to_string(power));
 
+		printToConsole(std::to_string(imu.get_heading()));
+
 		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
 			if (power < 100) {
 				power += 20;
