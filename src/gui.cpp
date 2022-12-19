@@ -45,6 +45,8 @@ lv_obj_t * lastPage;
 lv_obj_t * nextPage;
 lv_obj_t * visionResponse;
 lv_obj_t * visionResponse2;
+lv_obj_t * buttonBG;
+
 
 std::string passcode;
 
