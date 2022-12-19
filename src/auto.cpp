@@ -149,6 +149,8 @@ void rotateClockwise(int degrees) {
 
     // PD loop
     while (std::abs(error) > 1) {
+        printToConsole(std::to_string(error));
+
         error = target-current;
         error = fix180(error);
 
@@ -192,7 +194,11 @@ void getRoller() {
 }
 
 void startAuto2() {
+    imu.reset();
+    shoot(2, 75);
+    forwardDist(508);
     rotateClockwise(90);
+    getRoller();
 }
 
 void startAuto3() {

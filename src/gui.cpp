@@ -38,6 +38,7 @@ lv_obj_t * manualScreen;
 lv_obj_t * autoScreen;
 lv_obj_t * keypad;
 lv_obj_t * manualText;
+lv_obj_t * buttonBG;
 
 lv_obj_t * autoInfo;
 
