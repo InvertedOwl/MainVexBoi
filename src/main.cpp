@@ -72,9 +72,8 @@ void autonomous() {
 void opcontrol() {
 	bool lowerLast = false;
 	
-
 	// Loop
-	while (true) {		
+	while (true) {
 		master.clear_line(1);
 		master.set_text(1, 0, std::to_string(power));
 

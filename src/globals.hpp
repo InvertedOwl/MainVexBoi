@@ -67,5 +67,8 @@ extern lv_obj_t * nextPage;
 
 extern std::string passcode;
 
+extern lv_obj_t * PIDchart;
+extern lv_chart_series_t * PIDSeries;
+extern lv_chart_series_t * TargetSeries;
 
 #endif

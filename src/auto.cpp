@@ -150,6 +150,8 @@ void rotateClockwise(int degrees) {
     // PD loop
     while (std::abs(error) > 1) {
         current = imu.get_heading();
+		lv_chart_set_next(PIDchart, PIDSeries, current);		
+        lv_chart_set_next(PIDchart, TargetSeries, target);		
 
         error = target-current;
         error = fix180(error);
@@ -206,4 +208,5 @@ void startAuto3() {
     backDist(18);
     rotateClockwise(90);
     shoot(2, 85);
+
 }

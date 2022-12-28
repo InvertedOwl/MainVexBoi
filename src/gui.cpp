@@ -2,6 +2,7 @@
 #include "display/lv_core/lv_style.h"
 #include "display/lv_misc/lv_color.h"
 #include "display/lv_objx/lv_bar.h"
+#include "display/lv_objx/lv_chart.h"
 #include "display/lv_objx/lv_img.h"
 #include "display/lv_objx/lv_label.h"
 #include "main.h"
@@ -46,6 +47,10 @@ lv_obj_t * lastPage;
 lv_obj_t * nextPage;
 lv_obj_t * visionResponse;
 lv_obj_t * visionResponse2;
+
+lv_obj_t * PIDchart;
+lv_chart_series_t * PIDSeries;
+lv_chart_series_t * TargetSeries;
 
 
 std::string passcode;
@@ -144,6 +149,18 @@ void initGui() {
     lv_label_set_text(autoInfo, "...");
     lv_obj_set_size(autoInfo, 150, 0);
     lv_obj_set_style(autoInfo, &lab);
+
+    PIDchart = lv_chart_create(autoScreen, NULL);
+    lv_obj_set_size(PIDchart, 200, 150);
+    lv_obj_align(PIDchart, NULL, LV_ALIGN_CENTER, 0, 0);
+    lv_chart_set_type(PIDchart, LV_CHART_TYPE_LINE);   /*Show lines and points too*/
+
+    PIDSeries = lv_chart_add_series(PIDchart, LV_COLOR_BLACK);
+    TargetSeries = lv_chart_add_series(PIDchart, LV_COLOR_NAVY);
+    lv_chart_set_point_count(PIDchart, 50);
+    lv_chart_set_range(PIDchart, -180, 180);
+    
+
 
 
     buttonBG = lv_obj_create(mainScreen, NULL);
