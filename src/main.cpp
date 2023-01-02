@@ -12,6 +12,7 @@ int sol = 127;
 
 bool unlocked = false;
 
+//derek fooling around with forking for education purposes
 
 void updateMotor() {
 	while (true) {
