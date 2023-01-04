@@ -8,20 +8,26 @@
 #include <exception>
 #include <string>
 
+/*GENERAL REFERENCE
 
+-field tile is 2ft (609.60 millimeters) by 2ft (609.60 millimeters)
+-other stuff here
 
+*/
 
+//what?? - derek
 void ldSet(int val) {
     l1.target = val;
     l3.target = val;
     l2.target = val;
 }
+//what?? - derek 
 void rdSet(int val) {
     r1.target = val;
     r2.target = val;
     r3.target = val;
 }
-
+//adjusting for drift? - derek
 float fix180(float heading) {
     float result = heading;
 
@@ -33,7 +39,7 @@ float fix180(float heading) {
 
     return result;
 }
-
+//stops all functions? - derek
 void stop() {
     r1.target = -0;
     r2.target = -0;
@@ -59,7 +65,7 @@ void stop() {
     l3.unbreakk();
 }
 
-
+//move forward a certain amount (in millimeters)? - derek
 void forwardDist(int mmDist) {
     if (!mmDist) {
         mmDist = 20;
@@ -86,6 +92,7 @@ void forwardDist(int mmDist) {
     stop();
 }
 
+//kk wat this me no c++ - why is there a void*? does that just mean no type? - derek
 void forwardDist(void* mmDi) {
 
     int mmDist = (int)mmDi;
@@ -111,6 +118,7 @@ void forwardDist(void* mmDi) {
     stop();
 }
 
+//move back a certain distance in millimeters? - derek
 void backDist(int mmDist) {
 
 
@@ -133,20 +141,22 @@ void backDist(int mmDist) {
     stop();
 }
 
+//rotate clockwise a certain amount of degrees - derek
 void rotateClockwise(int degrees) {
 
     float kP = 1.5f;
     float kD = 0.085f;
 
-    float current = imu.get_heading();
-    float target = current + degrees;
+    float current = imu.get_heading(); //current = heading before turn
+    float target = current + degrees; //target = take heading before turn and add desired degrees to turn to get target position
 
-    float error = target-current;
-    error = fix180(error);
+    float error = target-current; //what
+    error = fix180(error); //hmm ok need to ask about this - this is probably in relation to drift??
 
     float deriv;
     float lastError = error;
 
+    //kk need this explained like wut - derek
     // PD loop
     while (std::abs(error) > 1) {
         current = imu.get_heading();
@@ -169,6 +179,7 @@ void rotateClockwise(int degrees) {
     }
 }
 
+//shoot amount (int disc) of disks, shoot at [int percPower] percent of flywheel power
 void shoot(int disc, int percPower) {
     f1.target = (percPower * 0.01f) * 127;
     f2.target = -(percPower * 0.01f) * 127;
@@ -184,10 +195,12 @@ void shoot(int disc, int percPower) {
         pros::delay(250);        
     }
     
+    //spin back down
     f1.target = 0;
     f2.target = 0;
 }
 
+//assuming this means that when in the desired position, go forward and roll the roller in (makes it desired team color) - derek
 void getRoller() {
     Task t(forwardDist, (void*)20);
     t1.target = 127;
@@ -195,18 +208,38 @@ void getRoller() {
     t1.target = 0;
 }
 
+//when autonomous is set in 2 mode (position away from roller i think):
 void startAuto2() {
-    imu.reset();
-    shoot(2, 75);
-    forwardDist(508);
-    rotateClockwise(90);
-    getRoller();
+    imu.reset(); //reset gyro
+    shoot(2, 75); //shoot 2 (preloads) at 75% power
+    forwardDist(508); //go forward 508 mm (1.67 ft? almost full tile)
+    rotateClockwise(90); //rotate 90 deg
+    getRoller(); //roll the roller lol
 }
 
+//when autonomous is set in 3 mode (position in front of roller i think):
 void startAuto3() {
-    getRoller();
-    backDist(18);
-    rotateClockwise(90);
-    shoot(2, 85);
+    getRoller(); //roll the roller pls
+    backDist(18); //go back 18mm
+    rotateClockwise(90); //rotate 90 deg
+    shoot(2, 85); //shoot 2 discs at 85% power
 
 }
+
+/*derek testing auto - WARNING - likely very bad
+
+outline for autonomous skills:
+
+-have robo start somewhere
+-turn until spot disk
+ upon spotting: 
+	-immediately stop, drive towards disk until unknown distance from disk
+	-pick up disk
+	-change disk counter by +1? any way to tell if it picks up an unintentional amount of disks?
+-create coord system so that when it has enough disks it can go to place to shoot
+
+EVENTUALLY:
+prolly gonna want a thing to check low goals for disks maybe
+have a way to make sure that one basket doesnt get too full?
+
+*/
