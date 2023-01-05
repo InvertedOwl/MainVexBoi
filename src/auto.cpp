@@ -11,6 +11,7 @@
 /*GENERAL REFERENCE
 
 -field tile is 2ft (609.60 millimeters) by 2ft (609.60 millimeters)
+-disk is 1.5 inches (38.10 millimeters) by 1.5 inches (38.10 millimeters)
 -other stuff here
 
 */
@@ -243,3 +244,47 @@ prolly gonna want a thing to check low goals for disks maybe
 have a way to make sure that one basket doesnt get too full?
 
 */
+
+pros::Optical optical_sensor(/*figure out port lol*/);
+pros::c::optical_rgb_s_t rgb_value;    //perhaps not nescessary / actually useful to use
+
+int numDisks = 0;   //number of disks currently stored in robot
+
+void senseDisk() {
+    //if more complicated scan is needed
+}
+
+void eatDisk() {
+    t1.target = 127;    //power up intake
+    forwardDist(38.10);    //move forward 38.10 mm (length of disk) - may need tuning
+}
+
+void startAutoSkillz() {
+    while(true) { //autonomous skills loop
+
+        //do i need to use a variable for optical sensor rgb input? dont think so
+        //rgb_value = optical_sensor.get_rgb();
+
+        if(optical_sensor.get_rgb() == "yellow") { //if the optical sensor detects yellow
+
+            //idea: maybe need two optical sensors? one to scan for farther disks and have the robo start driving forward, one to detect when its close?
+            //if thats too much then maybe have bobot just traverse path and use the color sensor to detech how many disks the robot has?
+
+            while(optical_sensor.get_proximity() > /*idk this needs to be tested*/ 50) {    //move forward by 1/10 of a field tile until right in front of disk
+                forwardDist(60.96);
+            }
+            
+            eatDisk();
+
+            //add a delay here if issues arise with eating while driving
+        }
+
+        // add next step - spin until disk spotted, then repeat above
+    }
+}
+
+/*MAIN LOOP:
+    -see if disk detected at start
+    -if so, start heading towards - stop right in front - spin up intake - move forward and eat - increase disk # var in robot
+    -start spin detection
+    -once there are three disks use that super cool coord system you made to get to shooting position and do so - then get away from shooting position and start loop once more
