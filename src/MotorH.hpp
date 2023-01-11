@@ -6,7 +6,8 @@ class MotorH {
         pros::Motor *motor;
 
         int target;
-        int slew;
+        int accelSlew;
+        int decelSlew;
         int current;
 
         bool breaking;
@@ -16,6 +17,8 @@ class MotorH {
         void unbreakk();
 
         MotorH(int port, int slew);
+        MotorH(int port, int accelSlew, int decelSlew);
+
 
         void tick();
 

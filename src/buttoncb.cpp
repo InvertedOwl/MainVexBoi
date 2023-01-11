@@ -120,6 +120,16 @@ lv_res_t start2(lv_obj_t * btn) {
     return LV_RES_OK;
 }
 
+lv_res_t startSkills(lv_obj_t * btn) {
+
+    spawn = 4;
+
+    lv_label_set_text(autoInfo, "Skills Start");
+    lv_obj_set_hidden(buttonBG, true);
+
+    return LV_RES_OK;
+}
+
 lv_res_t red(lv_obj_t * btn) {
     color = 1;
 

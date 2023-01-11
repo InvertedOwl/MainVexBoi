@@ -35,6 +35,7 @@ extern void initConfig();
 // - Auto -
 extern void startAuto2();
 extern void startAuto3();
+extern void autoSkills();
 extern bool inAuto;
 extern c::adi_gyro_t gyro;
 extern int spawn;
@@ -70,5 +71,7 @@ extern std::string passcode;
 extern lv_obj_t * PIDchart;
 extern lv_chart_series_t * PIDSeries;
 extern lv_chart_series_t * TargetSeries;
+
+extern lv_obj_t * calibrateButton;
 
 #endif

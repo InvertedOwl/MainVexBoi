@@ -64,6 +64,8 @@ void autonomous() {
 		startAuto3();
 	} else if (spawn == 2) {
 		startAuto2();
+	} else if (spawn == 4) {
+		autoSkills();
 	} else {
 		printToConsole("HELP DAD HELP");
 	}

@@ -167,6 +167,7 @@ void rotateClockwise(int degrees) {
         // 62-ish TPS
         pros::delay(16);
     }
+    stop();
 }
 
 void shoot(int disc, int percPower) {
@@ -193,6 +194,12 @@ void getRoller() {
     t1.target = 127;
     c::delay(180);
     t1.target = 0;
+}
+
+void autoSkills() {
+    getRoller();
+    backDist(50);    
+    rotateClockwise(135);
 }
 
 void startAuto2() {
