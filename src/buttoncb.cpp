@@ -124,7 +124,7 @@ lv_res_t startSkills(lv_obj_t * btn) {
 
     spawn = 4;
 
-    lv_label_set_text(autoInfo, "Skills Start");
+    lv_label_set_text(autoInfo, "Goblin Mode Activated");
     lv_obj_set_hidden(buttonBG, true);
 
     return LV_RES_OK;

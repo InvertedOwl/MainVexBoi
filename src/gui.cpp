@@ -174,7 +174,7 @@ void initGui() {
 
     createButton(55, 55, 100, 35, start3, buttonBG, "Set 3");
     createButton(-55, 55, 100, 35, start2, buttonBG, "Set 2");
-    createButton(0, 0, 100, 35, startSkills, buttonBG, "Skills");
+    createButton(0, 0, 100, 35, startSkills, buttonBG, "Goblin Mode");
 
 
     // Creates buttons and labels for each item saved in config
