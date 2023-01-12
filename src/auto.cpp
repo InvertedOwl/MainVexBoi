@@ -133,15 +133,37 @@ void backDist(int mmDist) {
     stop();
 }
 
-void rotateClockwise(int degrees) {
-
-    float kP = 1.5f;
-    float kD = 0.085f;
-
+void rotateClockwise(int degrees, bool forceBad = false) {
     float current = imu.get_heading();
     float target = current + degrees;
 
     float error = target-current;
+
+    if (forceBad) {
+        float degreesHalved = degrees/2.0f;
+
+        float motorSpeed = 127 * (float) degrees / abs(degrees);
+        rdSet(motorSpeed);
+        ldSet(motorSpeed);  // Possibly flip
+        
+
+        while (std::abs(error) > 1) {
+
+            current = imu.get_heading();
+
+            error = target-current;
+
+            // 62-ish TPS
+            pros::delay(16);
+        }
+        rotateClockwise(degreesHalved);
+        return;
+    }
+
+
+    float kP = 1.5f;
+    float kD = 0.085f;
+
     error = fix180(error);
 
     float deriv;
@@ -189,6 +211,12 @@ void shoot(int disc, int percPower) {
     f2.target = 0;
 }
 
+void intakeOn() {
+    t1.target = 127;
+}
+
+// Function for expansion is AUTOBOTS ROLL OUT!
+
 void getRoller() {
     Task t(forwardDist, (void*)20);
     t1.target = 127;
@@ -197,9 +225,38 @@ void getRoller() {
 }
 
 void autoSkills() {
+    // Roller 1
     getRoller();
-    backDist(50);    
-    rotateClockwise(135);
+    backDist(20);    
+    rotateClockwise(-225, true);
+    intakeOn();
+    forwardDist(100);
+    rotateClockwise(-45);
+    forwardDist(20);
+    
+    // Maybe turn off intake between shots?
+
+    // Roller 2
+    getRoller();
+    backDist(20);
+    rotateClockwise(90);
+    forwardDist(200);
+    shoot(3, 100);
+    rotateClockwise(45);
+    forwardDist(1000);
+    rotateClockwise(-90);
+    shoot(3, 100);
+    rotateClockwise(-90);
+    forwardDist(2000);
+    rotateClockwise(45);
+    shoot(3, 100);
+    rotateClockwise(90);
+    forwardDist(100);
+    
+    // Roller 3
+    getRoller();
+
+
 }
 
 void startAuto2() {
