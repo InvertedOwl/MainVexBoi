@@ -40,6 +40,7 @@ lv_res_t toggle_button(lv_obj_t * btn) {
 }
 
 lv_res_t start3(lv_obj_t * btn) {
+    imu.reset();
 
     spawn = 3;
     lv_label_set_text(autoInfo, "Roller Start");
@@ -111,6 +112,7 @@ lv_res_t startAuto(lv_obj_t * btn) {
 
 
 lv_res_t start2(lv_obj_t * btn) {
+    imu.reset();
 
     spawn = 2;
 
@@ -121,6 +123,7 @@ lv_res_t start2(lv_obj_t * btn) {
 }
 
 lv_res_t startSkills(lv_obj_t * btn) {
+    imu.reset();
 
     spawn = 4;
 

@@ -187,8 +187,10 @@ void opcontrol() {
 
 		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_UP) && master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT)) {
 			solenoid.set_value(true);
+			solenoid2.set_value(true);	
 		} else {
 			solenoid.set_value(false);
+			solenoid2.set_value(false);	
 		}
 
 		delay(20);

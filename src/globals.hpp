@@ -19,6 +19,7 @@ extern MotorH i1, t1;
 extern bool unlocked;
 extern Vision sensor;
 extern ADIDigitalOut solenoid;
+extern ADIDigitalOut solenoid2;
 extern int power;
 extern Imu imu;
 
