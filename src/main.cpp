@@ -74,6 +74,7 @@ void autonomous() {
 
 void opcontrol() {
 	bool lowerLast = false;
+	bool flywheel = false;
 	
 	// Loop
 	while (true) {
@@ -151,11 +152,14 @@ void opcontrol() {
 		l3.target = fixedly;
 
 
+		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
+			flywheel = !flywheel;
+		}
 
 		// Flywheel + indexer controls
-		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+		if (flywheel) {
 
-			if (f1.motor->get_actual_velocity() > 170 && !lowerLast) {
+			if (f1.motor->get_actual_velocity() > 200 * (( 96 + (32 * (0.01f * power))) / 127.0f) && !lowerLast) {
 				lowerLast = true;
 
 				master.rumble("-");
@@ -171,7 +175,7 @@ void opcontrol() {
 			f2.target = 0;
 		}
 
-		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2) && master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2) && flywheel && f1.motor->get_actual_velocity() > 200 * (( 96 + (32 * (0.01f * power))) / 127.0f)) {
 			i1.target = -127;
 		} else {
 			i1.target = 0;
@@ -185,7 +189,7 @@ void opcontrol() {
 			t1.target = 0;
 		}
 
-		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_UP) && master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT)) {
+		if ((partner.get_digital(pros::E_CONTROLLER_DIGITAL_UP) && partner.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT)) ||(master.get_digital(pros::E_CONTROLLER_DIGITAL_UP) && master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT)) ) {
 			solenoid.set_value(true);
 			solenoid2.set_value(true);	
 		} else {

@@ -13,6 +13,7 @@ using namespace pros;
 
 // - Vex stouf -
 extern Controller master;
+extern Controller partner;
 extern MotorH l1, l2, l3, r1, r2, r3;
 extern MotorH f1, f2;
 extern MotorH i1, t1;

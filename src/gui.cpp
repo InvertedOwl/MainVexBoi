@@ -9,11 +9,13 @@
 #include "buttoncb.hpp"
 #include "globals.hpp"
 #include "pros/adi.hpp"
+#include "pros/misc.h"
 
 using namespace pros;
 
 // initialize inputs/outputs
 Controller master(E_CONTROLLER_MASTER);
+Controller partner(E_CONTROLLER_PARTNER);
 //changeed to temporary slew rate (10 -- 10)
 //MotorH l1(1, 10), l2(2, 10), l3(3, 10), r1(11, 10), r2(5, s), r3(6, 25);
 MotorH l1(19, 25), l2(16, 25), l3(3, 25), r1(11, 25), r2(14, 25), r3(6, 25);

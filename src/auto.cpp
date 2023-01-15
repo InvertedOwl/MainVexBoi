@@ -213,14 +213,14 @@ void shoot(int disc, int percPower) {
     f2.target = -(percPower * 0.01f) * 127;
 
     // Speed up flywheel
-    pros::delay(3000);
+    pros::delay(2000);
 
     // Indexer per disc
     for (int i = 0; i < disc; i++) {
         i1.target = -127;
         pros::delay(250);
         i1.target = 0;
-        pros::delay(3000);        
+        pros::delay(2000);        
     }
     
     f1.target = 0;
@@ -243,7 +243,8 @@ void getRoller() {
 void autoSkills() {
     // Roller 1
     getRoller();
-    backDist(50);    
+    rotateClockwise(-15);
+    backDist(80);    
     forwardDist(30);
     rotateClockwise(-225, true);
     intakeOn();
@@ -294,14 +295,14 @@ void startAuto2() {
 }
 
 void startAuto3() {
-    // PASSIVE
-    getRoller();
-    backDist(18);
-    rotateClockwise(85);
-    shoot(2, 65);
-    
+    // // PASSIVE
     // getRoller();
     // backDist(18);
-    // rotateClockwise(-21, false, 2.5f);
-    // shoot(2, 90);
+    // rotateClockwise(85);
+    // shoot(2, 65);
+    
+    getRoller();
+    backDist(18);
+    rotateClockwise(-19, false, 2.5f);
+    shoot(2, 91);
 }
