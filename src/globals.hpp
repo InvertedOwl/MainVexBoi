@@ -13,12 +13,14 @@ using namespace pros;
 
 // - Vex stouf -
 extern Controller master;
+extern Controller partner;
 extern MotorH l1, l2, l3, r1, r2, r3;
 extern MotorH f1, f2;
 extern MotorH i1, t1;
 extern bool unlocked;
 extern Vision sensor;
 extern ADIDigitalOut solenoid;
+extern ADIDigitalOut solenoid2;
 extern int power;
 extern Imu imu;
 
@@ -35,6 +37,7 @@ extern void initConfig();
 // - Auto -
 extern void startAuto2();
 extern void startAuto3();
+extern void autoSkills();
 extern bool inAuto;
 extern c::adi_gyro_t gyro;
 extern int spawn;
@@ -70,5 +73,7 @@ extern std::string passcode;
 extern lv_obj_t * PIDchart;
 extern lv_chart_series_t * PIDSeries;
 extern lv_chart_series_t * TargetSeries;
+
+extern lv_obj_t * calibrateButton;
 
 #endif

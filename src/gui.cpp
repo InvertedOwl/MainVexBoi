@@ -9,18 +9,22 @@
 #include "buttoncb.hpp"
 #include "globals.hpp"
 #include "pros/adi.hpp"
+#include "pros/misc.h"
 
 using namespace pros;
 
 // initialize inputs/outputs
 Controller master(E_CONTROLLER_MASTER);
+Controller partner(E_CONTROLLER_PARTNER);
 //changeed to temporary slew rate (10 -- 10)
 //MotorH l1(1, 10), l2(2, 10), l3(3, 10), r1(11, 10), r2(5, s), r3(6, 25);
 MotorH l1(19, 25), l2(16, 25), l3(3, 25), r1(11, 25), r2(14, 25), r3(6, 25);
-MotorH f1(17, 10), f2(18, 10);
+MotorH f1(18, 10, 4), f2(17, 10, 4);
 MotorH i1(12, 25);
 MotorH t1(13, 25);
 ADIDigitalOut solenoid(8);
+ADIDigitalOut solenoid2(7);
+
 std::string constoleT = "";
 pros::Vision sensor (11);
 c::adi_gyro_t gyro = c::adi_gyro_init(1, 0.1);
@@ -36,6 +40,7 @@ lv_obj_t * window;
 lv_obj_t * mainScreen;
 lv_obj_t * configScreen;
 lv_obj_t * manualScreen;
+
 lv_obj_t * autoScreen;
 lv_obj_t * keypad;
 lv_obj_t * manualText;
@@ -47,6 +52,8 @@ lv_obj_t * lastPage;
 lv_obj_t * nextPage;
 lv_obj_t * visionResponse;
 lv_obj_t * visionResponse2;
+
+lv_obj_t * calibrateButton;
 
 lv_obj_t * PIDchart;
 lv_chart_series_t * PIDSeries;
@@ -171,6 +178,7 @@ void initGui() {
 
     createButton(55, 55, 100, 35, start3, buttonBG, "Set 3");
     createButton(-55, 55, 100, 35, start2, buttonBG, "Set 2");
+    createButton(0, 0, 100, 35, startSkills, buttonBG, "Goblin Mode");
 
 
     // Creates buttons and labels for each item saved in config
