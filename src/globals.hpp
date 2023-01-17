@@ -43,6 +43,7 @@ extern c::adi_gyro_t gyro;
 extern int spawn;
 extern int color;
 extern double velocity; //new - derek
+extern bool aggressive;
 
 
 // - GUI -
