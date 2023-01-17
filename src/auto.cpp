@@ -348,12 +348,12 @@ prolly gonna want a thing to check low goals for disks maybe
 have a way to make sure that one basket doesnt get too full?
 
 BENEFIT OF CALIBRATE FUNCTION
-- dont have to do stupid maual finding of velocity everytime we change the drive
+- dont have to do stupid manual finding of velocity everytime we change the drive
 - super cool
 */
 
 void forwardSeconds(void* seconds) {
-    int second = (int)seconds;
+    double second = (double)seconds;
     rdSet(-127);
     ldSet(127);
     pros::delay(second * 1000);
@@ -361,17 +361,43 @@ void forwardSeconds(void* seconds) {
     ldSet(0);
 }
 
+void backwardSeconds(void* seconds) {
+    double second = (double)seconds;
+    rdSet(127);
+    ldSet(-127);
+    pros::delay(second * 1000);
+    rdSet(0);
+    ldSet(0);
+}
+
+void forwardMeters(void* meters) {
+    double metersToMove = (double)meters;
+    forwardSeconds(metersToMove / velocity);
+}
+
+void backwardMeters(void* meters) {
+    double metersToMove = (double)meters;
+    backwardSeconds(metersToMove / velocity);
+}
+
 //finds velocity of robot
-double calibrate() {
+void calibrate() {
     int numSeconds = 2; //number of seconds to drive forward for 
-    double velocity = 0; //velocity of robot
+    double rawVelocity = 0; //initial velocity of robot
     pros::c::imu_accel_s_t accel = imu.get_accel(); //bro idk just copied wiki code
     Task task1 (forwardSeconds, (void*)numSeconds);
 
     for(double i = (double)numSeconds; i > 0; i - .1) {
-        velocity += accel.x;
+        rawVelocity += accel.x;
         pros::delay(100);
     }
 
-    return velocity / 10; //acceleration gathered every 1/10s, not 1s --> divide by 10 to get actual velocity
+    backwardSeconds(numSeconds); //move back to original position
+
+    velocity = rawVelocity / (10 * numSeconds); //acceleration gathered every 1/10s, not 1s --> divide by 10 to get actual velocity - multiply by number of seconds to get meters a *second*
 }
+
+/*void setVelocity() {
+    velocity = calibrate;
+}
+*/
