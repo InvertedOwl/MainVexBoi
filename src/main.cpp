@@ -81,7 +81,7 @@ void opcontrol() {
 		master.clear_line(1);
 		master.set_text(1, 0, std::to_string(power));
 
-		printToConsole(std::to_string(imu.get_heading()));
+		//printToConsole(std::to_string(imu.get_heading()));
 
 		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
 			if (power < 100) {
@@ -139,7 +139,7 @@ void opcontrol() {
 		
 
 		lv_label_set_text(manualText, ("Left Y: " + std::to_string(lefty) + "\nLeft X: " + std::to_string(leftx) + "\nRight Y: " + std::to_string(righty) + "\nRight X: " + std::to_string(rightx) + "\nFixedly: " + std::to_string(fixedly) + "\nFixedry: " + std::to_string(fixedry) + "\nCurrent time: " + std::to_string(std::time(nullptr)) +
-		"\nF1: " + std::to_string(f1.current) + " F1=: " + std::to_string(f1.motor->get_actual_velocity()) + "\nF2: " + std::to_string(f2.current)
+		"\nF1: " + std::to_string(f1.current) + " F1=: " + std::to_string(f1.motor->get_actual_velocity()) + "\nVelocity: " + std::to_string(calibrate) + "\nF2: " + std::to_string(f2.current)
 		).c_str());
 
 

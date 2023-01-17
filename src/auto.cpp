@@ -214,7 +214,7 @@ void rotateClockwise(int degrees, bool forceBad = false, float prop = 1.8f) {
 
         rdSet(out);
         ldSet(out);
-        printToConsole(std::to_string(current));
+        //printToConsole(std::to_string(current));
 
         // 62-ish TPS
         pros::delay(16);
@@ -347,12 +347,31 @@ EVENTUALLY:
 prolly gonna want a thing to check low goals for disks maybe
 have a way to make sure that one basket doesnt get too full?
 
+BENEFIT OF CALIBRATE FUNCTION
+- dont have to do stupid maual finding of velocity everytime we change the drive
+- super cool
 */
 
-//finds velocity of robot
-void calibrate() {
-
+void forwardSeconds(void* seconds) {
+    int second = (int)seconds;
     rdSet(-127);
     ldSet(127);
+    pros::delay(second * 1000);
+    rdSet(0);
+    ldSet(0);
+}
 
+//finds velocity of robot
+double calibrate() {
+    int numSeconds = 2; //number of seconds to drive forward for 
+    double velocity = 0; //velocity of robot
+    pros::c::imu_accel_s_t accel = imu.get_accel(); //bro idk just copied wiki code
+    Task task1 (forwardSeconds, (void*)numSeconds);
+
+    for(double i = (double)numSeconds; i > 0; i - .1) {
+        velocity += accel.x;
+        pros::delay(100);
+    }
+
+    return velocity / 10; //acceleration gathered every 1/10s, not 1s --> divide by 10 to get actual velocity
 }
