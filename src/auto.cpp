@@ -22,12 +22,14 @@ void ldSet(int val) {
     l3.target = val;
     l2.target = val;
 }
+
 //right drive set
 void rdSet(int val) {
     r1.target = val;
     r2.target = val;
     r3.target = val;
 }
+
 //fix to 180 deg for PID loop - rember whiteboard time
 float fix180(float heading) {
     float result = heading;
@@ -40,6 +42,7 @@ float fix180(float heading) {
 
     return result;
 }
+
 //stops all motors
 void stop() {
     r1.target = -0;
@@ -153,7 +156,9 @@ void rotateClockwise(int degrees) {
 
     float error = target-current; //what
     error = fix180(error); //hmm ok need to ask about this - this is probably in relation to drift??
-=======
+}
+
+//new rotate function - allows non-optimised rotation
 void rotateClockwise(int degrees, bool forceBad = false, float prop = 1.8f) {
     float current = imu.get_heading();
     float target = current + degrees;
@@ -201,7 +206,6 @@ void rotateClockwise(int degrees, bool forceBad = false, float prop = 1.8f) {
     float kD = 0.15f;
 
     error = fix180(error);
->>>>>>> 90577c0f13f4f678c465de865190872bfa119ed4
 
     float deriv;
     float lastError = error;
@@ -254,15 +258,14 @@ void shoot(int disc, int percPower) {
     f2.target = 0;
 }
 
-//assuming this means that when in the desired position, go forward and roll the roller in (makes it desired team color) - derek
-=======
+//turn intake on
 void intakeOn() {
     t1.target = 127;
 }
 
 // Function for expansion is AUTOBOTS ROLL OUT!
 
->>>>>>> 90577c0f13f4f678c465de865190872bfa119ed4
+//assuming this means that when in the desired position, go forward and roll the roller in (makes it desired team color) - derek
 void getRoller() {
     Task t(forwardDist, (void*)20);
     t1.target = 127;
@@ -270,14 +273,7 @@ void getRoller() {
     t1.target = 0;
 }
 
-//when autonomous is set in 2 mode (position away from roller i think):
-void startAuto2() {
-    imu.reset(); //reset gyro
-    shoot(2, 75); //shoot 2 (preloads) at 75% power
-    forwardDist(508); //go forward 508 mm (1.67 ft? almost full tile)
-    rotateClockwise(90); //rotate 90 deg
-    getRoller(); //roll the roller lol
-=======
+//autonomous skillz
 void autoSkills() {
     // Roller 1
     getRoller();
@@ -315,6 +311,7 @@ void autoSkills() {
 
 }
 
+//when autonomous is set in 2 mode (position away from roller):
 void startAuto2() {
     // rotateClockwise(22, false, 2.2f);
     // shoot(2, 700);
@@ -330,29 +327,21 @@ void startAuto2() {
     rotateClockwise(90);
     forwardDist(65);
     getRoller();
->>>>>>> 90577c0f13f4f678c465de865190872bfa119ed4
 }
 
 //when autonomous is set in 3 mode (position in front of roller i think):
 void startAuto3() {
-
-    getRoller(); //roll the roller pls
-    backDist(18); //go back 18mm
-    rotateClockwise(90); //rotate 90 deg
-    shoot(2, 85); //shoot 2 discs at 85% power
-
-=======
     // // PASSIVE
     // getRoller();
     // backDist(18);
     // rotateClockwise(85);
     // shoot(2, 65);
     
+    //AGGRESSIVE
     getRoller();
     backDist(18);
     rotateClockwise(-19, false, 2.5f);
     shoot(2, 91);
->>>>>>> 90577c0f13f4f678c465de865190872bfa119ed4
 }
 
 /*derek testing auto - WARNING - likely very bad
@@ -372,17 +361,3 @@ prolly gonna want a thing to check low goals for disks maybe
 have a way to make sure that one basket doesnt get too full?
 
 */
-
-pros::Optical optical_sensor(/*figure out port lol*/);
-pros::c::optical_rgb_s_t rgb_value;    //perhaps not nescessary / actually useful to use
-
-int numDisks = 0;   //number of disks currently stored in robot
-
-void senseDisk() {
-    //if more complicated scan is needed
-}
-
-void eatDisk() {
-    t1.target = 127;    //power up intake
-    forwardDist(38.10);    //move forward 38.10 mm (length of disk) - may need tuning
-}
