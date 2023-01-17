@@ -145,19 +145,6 @@ void backDist(int mmDist) {
     stop();
 }
 
-//rotates using PID
-void rotateClockwise(int degrees) {
-
-    float kP = 1.5f;
-    float kD = 0.085f;
-
-    float current = imu.get_heading(); //current = heading before turn
-    float target = current + degrees; //target = take heading before turn and add desired degrees to turn to get target position
-
-    float error = target-current; //what
-    error = fix180(error); //hmm ok need to ask about this - this is probably in relation to drift??
-}
-
 //new rotate function - allows non-optimised rotation
 void rotateClockwise(int degrees, bool forceBad = false, float prop = 1.8f) {
     float current = imu.get_heading();
@@ -361,3 +348,11 @@ prolly gonna want a thing to check low goals for disks maybe
 have a way to make sure that one basket doesnt get too full?
 
 */
+
+//finds velocity of robot
+void calibrate() {
+
+    rdSet(-127);
+    ldSet(127);
+
+}
