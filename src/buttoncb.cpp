@@ -39,6 +39,20 @@ lv_res_t toggle_button(lv_obj_t * btn) {
     return LV_RES_OK;
 }
 
+lv_res_t setAgressive(lv_obj_t * btn) {
+    aggressive = true;
+
+    if (spawn == 3) {
+        lv_label_set_text(autoInfo, "Roller Start Aggressive");
+    } else if (spawn == 2) {
+        lv_label_set_text(autoInfo, "Non-Roller Start Aggressive");
+    } else if (spawn == 4) {
+        lv_label_set_text(autoInfo, "Goblin Mode Aggressive");
+    }
+
+    return LV_RES_OK;
+}
+
 lv_res_t start3(lv_obj_t * btn) {
     imu.reset();
 

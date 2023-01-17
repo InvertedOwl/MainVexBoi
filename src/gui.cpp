@@ -31,6 +31,7 @@ c::adi_gyro_t gyro = c::adi_gyro_init(1, 0.1);
 bool inAuto = false;
 Imu imu(15);
 int color = 0;
+bool aggressive = false;
 
 int power = 20;
 
@@ -161,6 +162,8 @@ void initGui() {
     lv_obj_set_size(PIDchart, 200, 150);
     lv_obj_align(PIDchart, NULL, LV_ALIGN_CENTER, 0, 0);
     lv_chart_set_type(PIDchart, LV_CHART_TYPE_LINE);   /*Show lines and points too*/
+
+    createButton(0, 0, 200, 35, setAgressive, autoScreen, "AGGRESSIIIVEE");
 
     PIDSeries = lv_chart_add_series(PIDchart, LV_COLOR_BLACK);
     TargetSeries = lv_chart_add_series(PIDchart, LV_COLOR_NAVY);

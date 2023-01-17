@@ -16,21 +16,21 @@
 
 */
 
-//left drive set
+// Left drive set speed
 void ldSet(int val) {
     l1.target = val;
     l3.target = val;
     l2.target = val;
 }
 
-//right drive set
+// Right drive set speed
 void rdSet(int val) {
     r1.target = val;
     r2.target = val;
     r3.target = val;
 }
 
-//fix to 180 deg for PID loop - rember whiteboard time
+// fix to 180 deg for PID loop - rember whiteboard time
 float fix180(float heading) {
     float result = heading;
 
@@ -43,7 +43,7 @@ float fix180(float heading) {
     return result;
 }
 
-//stops all motors
+// Stops all motors
 void stop() {
     r1.target = -0;
     r2.target = -0;
@@ -69,7 +69,7 @@ void stop() {
     l3.unbreakk();
 }
 
-//move forward a certain amount (in millimeters)? (inaccurate) :(
+// Move forward a certain amount (in millimeters)? (inaccurate) :(
 void forwardDist(int mmDist) {
     if (!mmDist) {
         mmDist = 20;
@@ -96,7 +96,7 @@ void forwardDist(int mmDist) {
     stop();
 }
 
-//same as forwardDist, just allows for threading
+// Same as forwardDist, just allows for threading
 void forwardDist(void* mmDi) {
 
     int mmDist = (int)mmDi;
@@ -122,7 +122,7 @@ void forwardDist(void* mmDi) {
     stop();
 }
 
-//move back a certain distance in millimeters? (also innaccurate) :(
+// Move back a certain distance in millimeters? (also innaccurate) :(
 void backDist(int mmDist) {
 
 
@@ -145,22 +145,19 @@ void backDist(int mmDist) {
     stop();
 }
 
-//new rotate function - allows non-optimised rotation
+// New rotate function - allows non-optimised rotation
 void rotateClockwise(int degrees, bool forceBad = false, float prop = 1.8f) {
+    // Init values
     float current = imu.get_heading();
     float target = current + degrees;
-
-
-
     float error = target-current;
 
-
+    // Go half rotation at full speed IF forcebad
     if (forceBad) {
+        // Degrees to turn
         float degreesHalved = degrees/2.0f;
 
-
         target = current + degreesHalved;
-
             
         if (target < 0 && forceBad) {
             target += 360;
@@ -168,14 +165,14 @@ void rotateClockwise(int degrees, bool forceBad = false, float prop = 1.8f) {
         if (target > 360 && forceBad) {
             target -= 360;
         }
-
-
+        
+        // Calc speed for motors (Just gets the direction needed)
         float motorSpeed = 127 * (float) degrees / abs(degrees);
         rdSet(motorSpeed);
-        ldSet(motorSpeed);  // Possibly flip
+        ldSet(motorSpeed);
         
-
-        while (std::abs(error) > 10) {
+        // Wait until at at least half :)
+        while (std::abs(error) > 10) { // Change error error? 10*>5
 
             current = imu.get_heading();
 
@@ -188,7 +185,7 @@ void rotateClockwise(int degrees, bool forceBad = false, float prop = 1.8f) {
         return;
     }
 
-
+    // PID Val init
     float kP = prop;
     float kD = 0.15f;
 
@@ -198,23 +195,29 @@ void rotateClockwise(int degrees, bool forceBad = false, float prop = 1.8f) {
     float lastError = error;
 
     //kk need this explained like wut - derek
+    // Its the PD loop :) - Wes
+
     // PD loop
     while (std::abs(error) > 6) {
         current = imu.get_heading();
+        // Plot PD but no workie
 		lv_chart_set_next(PIDchart, PIDSeries, current);		
         lv_chart_set_next(PIDchart, TargetSeries, target);		
 
+        // Get error and fix to (-180 | 180)
         error = target-current;
         error = fix180(error);
 
+        // Calculate the derivitive
         deriv = error-lastError;
         lastError = error;
 
+        // Use values Derivitive and Proportional to get output value
         float out = (error * kP) + (deriv * kD);
 
+        // Set values
         rdSet(out);
         ldSet(out);
-        printToConsole(std::to_string(current));
 
         // 62-ish TPS
         pros::delay(16);
@@ -222,7 +225,7 @@ void rotateClockwise(int degrees, bool forceBad = false, float prop = 1.8f) {
     stop();
 }
 
-//shoot amount (int disc) of disks, shoot at [int percPower] percent of flywheel power
+// Shoot amount (int disc) of disks, shoot at [int percPower] percent of flywheel power
 void shoot(int disc, int percPower) {
     f1.target = (percPower * 0.01f) * 127;
     f2.target = -(percPower * 0.01f) * 127;
@@ -232,12 +235,17 @@ void shoot(int disc, int percPower) {
 
     // Indexer per disc
     for (int i = 0; i < disc; i++) {
+        
+        // Wait until flywheel is at speed (using power)
+        while (f1.motor->get_actual_velocity() < 200 * (( 96 + (32 * (0.01f * percPower))) / 127.0f)) {
+            pros::delay(16);
+        }
+
+        // Index one disc
         i1.target = -127;
-        pros::delay(300);
+        pros::delay(300);      
         i1.target = 0;
-        pros::delay(250);        
-        i1.target = 0;
-        pros::delay(2000);        
+        pros::delay(200);
     }
     
     //spin back down
@@ -252,15 +260,16 @@ void intakeOn() {
 
 // Function for expansion is AUTOBOTS ROLL OUT!
 
-//assuming this means that when in the desired position, go forward and roll the roller in (makes it desired team color) - derek
+// Gets roller directly in front (Move forward and roller at the same time)
 void getRoller() {
+    // Go forward and KEEP GOING without stopping the thread
     Task t(forwardDist, (void*)20);
     t1.target = 127;
     c::delay(180);
     t1.target = 0;
 }
 
-//autonomous skillz
+// Goblin mode
 void autoSkills() {
     // Roller 1
     getRoller();
@@ -298,37 +307,40 @@ void autoSkills() {
 
 }
 
-//when autonomous is set in 2 mode (position away from roller):
+// Right auto
 void startAuto2() {
-    // rotateClockwise(22, false, 2.2f);
-    // shoot(2, 700);
-    // rotateClockwise(-112);
-    // forwardDist(508);
-    // rotateClockwise(90);
-    // forwardDist(50);
-    // getRoller();
-
-    imu.reset();
-    shoot(2, 65);
-    forwardDist(508);
-    rotateClockwise(90);
-    forwardDist(65);
-    getRoller();
+    if (!aggressive) {
+        shoot(2, 65);
+        forwardDist(508);
+        rotateClockwise(90);
+        forwardDist(65);
+        getRoller();
+    } else {
+        rotateClockwise(22, false, 2.2f);
+        shoot(2, 700);
+        rotateClockwise(-112);
+        forwardDist(508);
+        rotateClockwise(90);
+        forwardDist(50);
+        getRoller();
+    }
 }
 
-//when autonomous is set in 3 mode (position in front of roller i think):
+// Left auto
 void startAuto3() {
-    // // PASSIVE
-    // getRoller();
-    // backDist(18);
-    // rotateClockwise(85);
-    // shoot(2, 65);
-    
-    //AGGRESSIVE
-    getRoller();
-    backDist(18);
-    rotateClockwise(-19, false, 2.5f);
-    shoot(2, 91);
+    if (!aggressive) {
+        // PASSIVE
+        getRoller();
+        backDist(18);
+        rotateClockwise(85);
+        shoot(2, 65);
+    } else {
+        //AGGRESSIVE
+        getRoller();
+        backDist(18);
+        rotateClockwise(-19, false, 2.5f);
+        shoot(2, 91);
+    }
 }
 
 /*derek testing auto - WARNING - likely very bad
