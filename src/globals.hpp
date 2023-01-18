@@ -45,7 +45,6 @@ extern int color;
 extern double velocity; //new - derek
 extern bool aggressive;
 
-
 // - GUI -
 extern void createButton(int, int, int, int, lv_action_t, lv_obj_t *, const char *);
 extern void printToConsole(std::string);

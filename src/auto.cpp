@@ -394,6 +394,7 @@ void backwardMeters(void* meters) {
     //backwardSeconds(metersToMove / velocity);
     double secondsToMove = *((double*)meters) / velocity;
     backwardSeconds(&secondsToMove);
+    
 }
 
 //finds velocity of robot
