@@ -140,8 +140,7 @@ void opcontrol() {
 		
 
 		lv_label_set_text(manualText, ("Left Y: " + std::to_string(lefty) + "\nLeft X: " + std::to_string(leftx) + "\nRight Y: " + std::to_string(righty) + "\nRight X: " + std::to_string(rightx) + "\nFixedly: " + std::to_string(fixedly) + "\nFixedry: " + std::to_string(fixedry) + "\nCurrent time: " + std::to_string(std::time(nullptr)) +
-		"\nF1: " + std::to_string(f1.current) + " F1=: " + std::to_string(f1.motor->get_actual_velocity()) + /*new - derek*/"\nVelocity: " + std::to_string(velocity) + " m/s" + "\nF2: " + std::to_string(f2.current)
-
+		"\nF1: " + std::to_string(f1.current) + " F1=: " + std::to_string(f1.motor->get_actual_velocity()) + "\nF2: " + std::to_string(f2.current)
 		).c_str());
 
 
