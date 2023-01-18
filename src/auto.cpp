@@ -96,6 +96,48 @@ void forwardDist(int mmDist) {
     stop();
 }
 
+void forwardPID (int mmDi) {
+        // PID Val init
+    float kP = 2;
+    float kD = 0.15f;
+    int initalDegrees = r1.getMotorPos();
+    int target = ((mmDi / 319.28) * -360) + initalDegrees;
+    float error = target-initalDegrees;
+
+    error = fix180(error);
+
+    float deriv;
+    float lastError = error;
+
+    //kk need this explained like wut - derek
+    // Its the PD loop :) - Wes
+
+    // PD loop
+    while (std::abs(error) > 6) {
+        initalDegrees = imu.get_heading();
+
+
+        // Get error and fix to (-180 | 180)
+        error = target-initalDegrees;
+        // error = fix180(error);
+
+        // Calculate the derivitive
+        deriv = error-lastError;
+        lastError = error;
+
+        // Use values Derivitive and Proportional to get output value
+        float out = (error * kP) + (deriv * kD);
+
+        // Set values
+        rdSet(out);
+        ldSet(-out);
+
+        // 62-ish TPS
+        pros::delay(16);
+    }
+    stop();
+}
+
 // Same as forwardDist, just allows for threading
 void forwardDist(void* mmDi) {
 
@@ -146,7 +188,7 @@ void backDist(int mmDist) {
 }
 
 // New rotate function - allows non-optimised rotation
-void rotateClockwise(int degrees, bool forceBad = false, float prop = 1.8f) {
+void rotateClockwise(int degrees, bool forceBad = false, float prop = 1.6f) {
     // Init values
     float current = imu.get_heading();
     float target = current + degrees;
@@ -219,7 +261,6 @@ void rotateClockwise(int degrees, bool forceBad = false, float prop = 1.8f) {
         rdSet(out);
         ldSet(out);
 
-
         // 62-ish TPS
         pros::delay(16);
     }
@@ -237,16 +278,29 @@ void shoot(int disc, int percPower) {
     // Indexer per disc
     for (int i = 0; i < disc; i++) {
         
+        
+
         // Wait until flywheel is at speed (using power)
-        while (f1.motor->get_actual_velocity() < 200 * (( 96 + (32 * (0.01f * percPower))) / 127.0f)) {
-            pros::delay(16);
+        if (percPower > 65) {
+            while (f1.motor->get_actual_velocity() < 200 * (( 96 + (32 * (0.01f * percPower))) / 127.0f)) {
+                pros::delay(16);
+            }
+            printToConsole(std::to_string(f1.motor->get_actual_velocity()));
+        } else {
+            pros::delay(500);
         }
+
+
 
         // Index one disc
         i1.target = -127;
-        pros::delay(300);      
+        pros::delay(100);
+        while (!limitIndexer.get_new_press()) {
+            pros::delay(16);
+        }
+
         i1.target = 0;
-        pros::delay(200);
+        pros::delay(100);
     }
     
     //spin back down
@@ -311,19 +365,29 @@ void autoSkills() {
 // Right auto
 void startAuto2() {
     if (!aggressive) {
+
         shoot(2, 65);
-        forwardDist(508);
+        forwardDist(516);
         rotateClockwise(90);
-        forwardDist(65);
+        forwardDist(20);
         getRoller();
     } else {
-        rotateClockwise(22, false, 2.2f);
-        shoot(2, 700);
-        rotateClockwise(-112);
-        forwardDist(508);
+        forwardDist(492);
         rotateClockwise(90);
-        forwardDist(50);
+        forwardDist(20);
         getRoller();
+
+        backDist(18);
+        // rotateClockwise(19, false, 2.5f);
+        shoot(2, 91);
+
+        // rotateClockwise(18, false, 2.36f);
+        // shoot(2, 91);
+        // rotateClockwise(-90-18);
+        // forwardDist(508);
+        // rotateClockwise(90);
+        // forwardDist(65);
+        // getRoller();
     }
 }
 
@@ -339,7 +403,7 @@ void startAuto3() {
         //AGGRESSIVE
         getRoller();
         backDist(18);
-        rotateClockwise(-19, false, 2.5f);
+        rotateClockwise(-18, false, 1.85f);
         shoot(2, 91);
     }
 }
@@ -360,9 +424,6 @@ EVENTUALLY:
 prolly gonna want a thing to check low goals for disks maybe
 have a way to make sure that one basket doesnt get too full?
 
-BENEFIT OF CALIBRATE FUNCTION
-- dont have to do stupid manual finding of velocity everytime we change the drive
-- super cool
 */
 
 void forwardSeconds(void* seconds) {
@@ -398,10 +459,6 @@ void backwardMeters(void* meters) {
 
 //finds velocity of robot
 void calibrate() {
-    int numSeconds = 2; //number of seconds to drive forward for 
-    double rawVelocity = 0; //initial velocity of robot
-    pros::c::imu_accel_s_t accel = imu.get_accel(); //bro idk just copied wiki code
-    Task task1 (forwardSeconds, (void*)numSeconds);
 
     for(double i = (double)numSeconds; i > 0; i - .1) {
         rawVelocity += accel.x;
@@ -413,7 +470,4 @@ void calibrate() {
     velocity = rawVelocity / (10 * numSeconds); //acceleration gathered every 1/10s, not 1s --> divide by 10 to get actual velocity - multiply by number of seconds to get meters a *second*
 }
 
-/*void setVelocity() {
-    velocity = calibrate;
 }
-*/
