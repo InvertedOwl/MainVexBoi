@@ -366,7 +366,7 @@ BENEFIT OF CALIBRATE FUNCTION
 */
 
 void forwardSeconds(void* seconds) {
-    double second = (double)seconds;
+    double second = *((double*)seconds);
     rdSet(-127);
     ldSet(127);
     pros::delay(second * 1000);
@@ -375,7 +375,7 @@ void forwardSeconds(void* seconds) {
 }
 
 void backwardSeconds(void* seconds) {
-    double second = (double)seconds;
+    double second = *((double*)seconds);
     rdSet(127);
     ldSet(-127);
     pros::delay(second * 1000);
@@ -384,13 +384,16 @@ void backwardSeconds(void* seconds) {
 }
 
 void forwardMeters(void* meters) {
-    double metersToMove = (double)meters;
-    forwardSeconds(metersToMove / velocity);
+    //double metersToMove = *((double*)meters);
+    double secondsToMove = *((double*)meters) / velocity;
+    forwardSeconds(&secondsToMove);
 }
 
 void backwardMeters(void* meters) {
-    double metersToMove = (double)meters;
-    backwardSeconds(metersToMove / velocity);
+    //double second = *((double*)seconds);
+    //backwardSeconds(metersToMove / velocity);
+    double secondsToMove = *((double*)meters) / velocity;
+    backwardSeconds(&secondsToMove);
 }
 
 //finds velocity of robot
@@ -405,7 +408,7 @@ void calibrate() {
         pros::delay(100);
     }
 
-    backwardSeconds(numSeconds); //move back to original position
+    backwardSeconds((void*) &numSeconds); //move back to original position
 
     velocity = rawVelocity / (10 * numSeconds); //acceleration gathered every 1/10s, not 1s --> divide by 10 to get actual velocity - multiply by number of seconds to get meters a *second*
 }
