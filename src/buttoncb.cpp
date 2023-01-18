@@ -21,12 +21,6 @@ lv_res_t keypad_back(lv_obj_t * btn) {
     return LV_RES_OK;
 }
 
-lv_res_t setCalibrateTest(lv_obj_t * btn) {
-    
-
-    return LV_RES_OK;
-}
-
 lv_res_t keypad_button(lv_obj_t * btn) {
     uint8_t id = lv_obj_get_free_num(btn);
 
