@@ -14,4 +14,5 @@ lv_res_t blue(lv_obj_t *);
 lv_res_t red(lv_obj_t *);
 lv_res_t startTest(lv_obj_t *);
 lv_res_t startAuto(lv_obj_t *);
-lv_res_t setAgressive(lv_obj_t * btn);
+lv_res_t setAgressive(lv_obj_t *);
+lv_res_t setCalibrateTest(lv_obj_t *);
