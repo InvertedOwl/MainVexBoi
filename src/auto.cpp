@@ -460,15 +460,15 @@ void backwardMeters(void* meters) {
 
 //finds velocity of robot
 void calibrate() {
-
+    double numSeconds = 2.0;
+    double rawVelocity = 0;
+    pros::c::imu_accel_s_t accel = imu.get_accel(); //idk just copied wiki code
     for(double i = (double)numSeconds; i > 0; i - .1) {
         rawVelocity += accel.x;
         pros::delay(100);
     }
-
+    
     backwardSeconds((void*) &numSeconds); //move back to original position
 
     velocity = rawVelocity / (10 * numSeconds); //acceleration gathered every 1/10s, not 1s --> divide by 10 to get actual velocity - multiply by number of seconds to get meters a *second*
-}
-
 }
