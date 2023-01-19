@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include "MotorH.hpp"
+#include "pros/adi.hpp"
 #include "pros/imu.hpp"
 
 
@@ -21,6 +22,7 @@ extern bool unlocked;
 extern Vision sensor;
 extern ADIDigitalOut solenoid;
 extern ADIDigitalOut solenoid2;
+extern ADIDigitalIn limitIndexer;
 extern int power;
 extern Imu imu;
 
@@ -42,7 +44,6 @@ extern bool inAuto;
 extern c::adi_gyro_t gyro;
 extern int spawn;
 extern int color;
-extern double velocity; //new - derek
 extern bool aggressive;
 
 // - GUI -
