@@ -467,7 +467,7 @@ void calibrate() {
         rawVelocity += accel.x;
         pros::delay(100);
     }
-    
+
     backwardSeconds((void*) &numSeconds); //move back to original position
 
     velocity = rawVelocity / (10 * numSeconds); //acceleration gathered every 1/10s, not 1s --> divide by 10 to get actual velocity - multiply by number of seconds to get meters a *second*
