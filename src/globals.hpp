@@ -45,7 +45,7 @@ extern c::adi_gyro_t gyro;
 extern int spawn;
 extern int color;
 extern bool aggressive;
-
+extern double velocity;
 
 // - GUI -
 extern void createButton(int, int, int, int, lv_action_t, lv_obj_t *, const char *);

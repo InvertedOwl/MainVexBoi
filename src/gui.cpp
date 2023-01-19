@@ -24,6 +24,8 @@ MotorH i1(12, 25);
 MotorH t1(13, 25);
 ADIDigitalOut solenoid(8);
 ADIDigitalOut solenoid2(7);
+double velocity = 0;
+
 ADIDigitalIn limitIndexer(6);
 
 std::string constoleT = "";
