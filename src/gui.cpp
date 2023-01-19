@@ -281,7 +281,6 @@ void initGui() {
     createButton(480/2 - (150/2), 270/2 - 60, 100, 35, btn_click_action, configScreen, ">");
     createButton(-480/2 + (150/2), 270/2 - 40, 100, 35, backAuto, autoScreen, "Back");
 
-    createButton(0, -150, 100, 35, setCalibrateTest, autoScreen, "Test Calibrate");
 
     std::cout << "Initialized gui... " << std::endl;
 }
