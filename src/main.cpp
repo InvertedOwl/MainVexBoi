@@ -42,6 +42,8 @@ void initialize() {
 	initConfig();
 	initGui();
 
+	imu.reset();
+
 	master.rumble(".-");
 
 	Task t(updateMotor);
@@ -177,6 +179,8 @@ void opcontrol() {
 			f2.target = 0;
 		}
 
+
+
 		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2) && flywheel && f1.motor->get_actual_velocity() > 200 * (( 96 + (32 * (0.01f * power))) / 127.0f)) {
 			i1.target = -127;
 		} else {
@@ -189,6 +193,10 @@ void opcontrol() {
 			t1.target = -127;
 		} else {
 			t1.target = 0;
+		}
+
+		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1) && master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+			t1.target = -60;
 		}
 
 		if (partner.get_digital(pros::E_CONTROLLER_DIGITAL_UP) ||(master.get_digital(pros::E_CONTROLLER_DIGITAL_UP)) ) {

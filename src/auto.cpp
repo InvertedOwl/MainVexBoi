@@ -188,7 +188,7 @@ void backDist(int mmDist) {
 }
 
 // New rotate function - allows non-optimised rotation
-void rotateClockwise(int degrees, bool forceBad = false, float prop = 1.6f) {
+void rotateClockwise(int degrees, bool forceBad = false, float prop = 1.9f) {
     // Init values
     float current = imu.get_heading();
     float target = current + degrees;
@@ -230,7 +230,7 @@ void rotateClockwise(int degrees, bool forceBad = false, float prop = 1.6f) {
         // PID Val init
         float kP = prop;
         float kD = 0.15f;
-        float kI = 0.005f;
+        float kI = 0.009f;
         float integral = 0;
 
         error = fix180(error);
@@ -289,7 +289,7 @@ void shoot(int disc, int percPower) {
         // Wait until flywheel is at speed (using power)
         if (percPower > 65) {
             int count = 0;
-            while (f1.motor->get_actual_velocity() < 180 * (( 96 + (32 * (0.01f * percPower))) / 127.0f)) {
+            while (f1.motor->get_actual_velocity() < 205 * (0.01f * percPower)) {
                 if (count == 60 * 3) {
                     break;
                 }
@@ -384,7 +384,7 @@ void startAuto2() {
         getRoller();
     } else {
         forwardDist(460);
-        rotateClockwise(90, false, 1.6f);
+        rotateClockwise(90, false, 1.8f);
         forwardDist(20);
         getRoller();
 
@@ -404,12 +404,24 @@ void startAuto2() {
 
 // Left auto
 void startAuto3() {
+    // 0
+    // - 18
+    // - 131
+    // 131 + 83
+
     if (!aggressive) {
         // PASSIVE
         getRoller();
         backDist(18);
-        rotateClockwise(83);
+        rotateClockwise(83, false, 2.3f);
         shoot(2, 65);
+        rotateClockwise(-214);
+        forwardDist(350);
+        intakeOn();
+        forwardDist(700, 32);
+        // rotateClockwise(84, false, 2.0f);
+        // shoot(3, 74);
+
     } else {
         //AGGRESSIVE
         f1.target = (78 * 0.01f) * 127;
@@ -421,11 +433,11 @@ void startAuto3() {
         f1.target = (74 * 0.01f) * 127;
         f2.target = -(74 * 0.01f) * 127;
         // pros::delay(2000);
-        rotateClockwise(-113, false, 1.6f);
+        rotateClockwise(-113, false, 1.9f);
         forwardDist(350);
         intakeOn();
         forwardDist(700, 32);
-        rotateClockwise(87, false, 1.7f);
+        rotateClockwise(87, false, 2.0f);
         shoot(3, 74);
     }
 }
