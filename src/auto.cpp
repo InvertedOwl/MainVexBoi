@@ -70,13 +70,13 @@ void stop() {
 }
 
 // Move forward a certain amount (in millimeters)? (inaccurate) :(
-void forwardDist(int mmDist) {
+void forwardDist(int mmDist, int speed = 127) {
     if (!mmDist) {
         mmDist = 20;
     }
 
-    rdSet(-127);
-    ldSet(127);
+    rdSet(-speed);
+    ldSet(speed);
 
     int initalDegrees = r1.getMotorPos();
     int target = ((mmDist / 319.28) * -360) + initalDegrees;
@@ -227,35 +227,40 @@ void rotateClockwise(int degrees, bool forceBad = false, float prop = 1.6f) {
         return;
     }
 
-    // PID Val init
-    float kP = prop;
-    float kD = 0.15f;
+        // PID Val init
+        float kP = prop;
+        float kD = 0.15f;
+        float kI = 0.005f;
+        float integral = 0;
 
-    error = fix180(error);
+        error = fix180(error);
 
-    float deriv;
-    float lastError = error;
+        float deriv;
+        float lastError = error;
 
-    //kk need this explained like wut - derek
-    // Its the PD loop :) - Wes
-
-    // PD loop
+        // PD loop with I term
     while (std::abs(error) > 6) {
         current = imu.get_heading();
         // Plot PD but no workie
-		lv_chart_set_next(PIDchart, PIDSeries, current);		
-        lv_chart_set_next(PIDchart, TargetSeries, target);		
+        lv_chart_set_next(PIDchart, PIDSeries, current);
+        lv_chart_set_next(PIDchart, TargetSeries, target);
 
         // Get error and fix to (-180 | 180)
         error = target-current;
         error = fix180(error);
 
-        // Calculate the derivitive
+        // Calculate the derivative
         deriv = error-lastError;
         lastError = error;
 
-        // Use values Derivitive and Proportional to get output value
-        float out = (error * kP) + (deriv * kD);
+        // Calculate integral
+
+        // Use values Derivative, Proportional and Integral to get output value
+        if (std::abs(error) < 15) {
+            integral += error;
+
+        }
+        float out = (error * kP) + (deriv * kD) + (integral * kI);
 
         // Set values
         rdSet(out);
@@ -264,6 +269,7 @@ void rotateClockwise(int degrees, bool forceBad = false, float prop = 1.6f) {
         // 62-ish TPS
         pros::delay(16);
     }
+
     stop();
 }
 
@@ -282,7 +288,12 @@ void shoot(int disc, int percPower) {
 
         // Wait until flywheel is at speed (using power)
         if (percPower > 65) {
-            while (f1.motor->get_actual_velocity() < 200 * (( 96 + (32 * (0.01f * percPower))) / 127.0f)) {
+            int count = 0;
+            while (f1.motor->get_actual_velocity() < 180 * (( 96 + (32 * (0.01f * percPower))) / 127.0f)) {
+                if (count == 60 * 3) {
+                    break;
+                }
+                count += 1;
                 pros::delay(16);
             }
             printToConsole(std::to_string(f1.motor->get_actual_velocity()));
@@ -367,19 +378,19 @@ void startAuto2() {
     if (!aggressive) {
 
         shoot(2, 65);
-        forwardDist(516);
+        forwardDist(480);
         rotateClockwise(90);
         forwardDist(20);
         getRoller();
     } else {
-        forwardDist(492);
-        rotateClockwise(90);
+        forwardDist(460);
+        rotateClockwise(90, false, 1.6f);
         forwardDist(20);
         getRoller();
 
         backDist(18);
         // rotateClockwise(19, false, 2.5f);
-        shoot(2, 91);
+        shoot(2, 83);
 
         // rotateClockwise(18, false, 2.36f);
         // shoot(2, 91);
@@ -397,14 +408,25 @@ void startAuto3() {
         // PASSIVE
         getRoller();
         backDist(18);
-        rotateClockwise(85);
+        rotateClockwise(83);
         shoot(2, 65);
     } else {
         //AGGRESSIVE
+        f1.target = (78 * 0.01f) * 127;
+        f2.target = -(78 * 0.01f) * 127;
         getRoller();
         backDist(18);
-        rotateClockwise(-18, false, 1.85f);
-        shoot(2, 91);
+        rotateClockwise(-18, false, 2.2f);
+        shoot(2, 78);
+        f1.target = (74 * 0.01f) * 127;
+        f2.target = -(74 * 0.01f) * 127;
+        // pros::delay(2000);
+        rotateClockwise(-113, false, 1.6f);
+        forwardDist(350);
+        intakeOn();
+        forwardDist(700, 32);
+        rotateClockwise(87, false, 1.7f);
+        shoot(3, 74);
     }
 }
 
@@ -432,6 +454,10 @@ void forwardSeconds(void* seconds) {
     ldSet(127);
     pros::delay(second * 1000);
     rdSet(0);
+
+    
+
+    
     ldSet(0);
 }
 
@@ -446,8 +472,7 @@ void backwardSeconds(void* seconds) {
 
 void forwardMeters(void* meters) {
     //double metersToMove = *((double*)meters);
-    double secondsToMove = *((double*)meters) / velocity;
-    forwardSeconds(&secondsToMove);
+    double secondsToMove = *((double*)meters) / velocity;    forwardSeconds(&secondsToMove);
 }
 
 void backwardMeters(void* meters) {

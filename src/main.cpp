@@ -90,7 +90,7 @@ void opcontrol() {
 			}
 		}
 		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
-			if (power > 0) {
+			if (power > -50) {
 				power -= 20;
 			}
 		}
@@ -139,8 +139,8 @@ void opcontrol() {
 		float fixedly = vally/maxly * 127.0f * posnegthesequal;
 		
 
-		lv_label_set_text(manualText, ("Left Y: " + std::to_string(lefty) + "\nLeft X: " + std::to_string(leftx) + "\nRight Y: " + std::to_string(righty) + "\nRight X: " + std::to_string(rightx) + "\nFixedly: " + std::to_string(fixedly) + "\nFixedry: " + std::to_string(fixedry) + "\nCurrent time: " + std::to_string(std::time(nullptr)) +
-		"\nF1: " + std::to_string(f1.current) + " F1=: " + std::to_string(f1.motor->get_actual_velocity()) + "\nF2: " + std::to_string(f2.current)
+		lv_label_set_text(manualText, ("mA F1: " + std::to_string(f1.motor->get_current_draw()) + "\nLeft X: " + std::to_string(leftx) + "\nRight Y: " + std::to_string(righty) + "\nRight X: " + std::to_string(rightx) + "\nFixedly: " + std::to_string(fixedly) + "\nFixedry: " + std::to_string(fixedry) + "\nCurrent time: " + std::to_string(std::time(nullptr)) +
+		"\nF1: " + std::to_string(f1.current) + " F1=: " + std::to_string(f1.motor->get_actual_velocity() * 13.6363636364f) + "\nF1 Actual: " + std::to_string(f1.motor->get_actual_velocity())
 		).c_str());
 		
 
@@ -191,11 +191,14 @@ void opcontrol() {
 			t1.target = 0;
 		}
 
-		if ((partner.get_digital(pros::E_CONTROLLER_DIGITAL_UP) && partner.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT)) ||(master.get_digital(pros::E_CONTROLLER_DIGITAL_UP) && master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT)) ) {
+		if (partner.get_digital(pros::E_CONTROLLER_DIGITAL_UP) ||(master.get_digital(pros::E_CONTROLLER_DIGITAL_UP)) ) {
 			solenoid.set_value(true);
-			solenoid2.set_value(true);	
 		} else {
 			solenoid.set_value(false);
+		}
+		if (partner.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT) ||(master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT)) ) {
+			solenoid2.set_value(true);	
+		} else {
 			solenoid2.set_value(false);	
 		}
 
