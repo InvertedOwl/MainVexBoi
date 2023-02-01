@@ -6,6 +6,7 @@
 #include <string>
 #include "MotorH.hpp"
 #include "pros/adi.h"
+#include "pros/misc.h"
 
 using namespace pros;
 
@@ -172,8 +173,8 @@ void opcontrol() {
 				lowerLast = false;
 			}
 
-			f1.target = 96 + (32 * (0.01f * power));
-			f2.target = -96 + (-32 * (0.01f * power));
+			f2.target = 96 + (32 * (0.01f * power));
+			f1.target = -96 + (-32 * (0.01f * power));
 		} else {
 			f1.target = 0;
 			f2.target = 0;
@@ -181,7 +182,8 @@ void opcontrol() {
 
 
 
-		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2) && flywheel && f1.motor->get_actual_velocity() > 200 * (( 96 + (32 * (0.01f * power))) / 127.0f)) {
+		//if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2) && flywheel && f1.motor->get_actual_velocity() > 200 * (( 96 + (32 * (0.01f * power))) / 127.0f)) {
+		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
 			i1.target = -127;
 		} else {
 			i1.target = 0;
