@@ -142,7 +142,7 @@ void opcontrol() {
 		float fixedly = vally/maxly * 127.0f * posnegthesequal;
 		
 
-		lv_label_set_text(manualText, ("mA F1: " + std::to_string(f1.motor->get_current_draw()) + "\nLeft X: " + std::to_string(leftx) + "\nRight Y: " + std::to_string(righty) + "\nRight X: " + std::to_string(rightx) + "\nFixedly: " + std::to_string(fixedly) + "\nFixedry: " + std::to_string(fixedry) + "\nCurrent time: " + std::to_string(std::time(nullptr)) +
+		lv_label_set_text(manualText, ("I1: " + std::to_string(t1.motor->get_actual_velocity()) + "\nLeft X: " + std::to_string(leftx) + "\nRight Y: " + std::to_string(righty) + "\nRight X: " + std::to_string(rightx) + "\nFixedly: " + std::to_string(fixedly) + "\nFixedry: " + std::to_string(fixedry) + "\nT1 Temp: : " + std::to_string(t1.motor->get_temperature()) +
 		"\nF1: " + std::to_string(f1.current) + " F1=: " + std::to_string(f1.motor->get_actual_velocity() * 13.6363636364f) + "\nF1 Actual: " + std::to_string(f1.motor->get_actual_velocity())
 		).c_str());
 		
@@ -173,8 +173,8 @@ void opcontrol() {
 				lowerLast = false;
 			}
 
-			f2.target = 96 + (32 * (0.01f * power));
-			f1.target = -96 + (-32 * (0.01f * power));
+			f2.target = -96 + (32 * (0.01f * power));
+			f1.target = 96 + (-32 * (0.01f * power));
 		} else {
 			f1.target = 0;
 			f2.target = 0;

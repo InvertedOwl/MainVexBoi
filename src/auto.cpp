@@ -275,8 +275,9 @@ void rotateClockwise(int degrees, bool forceBad = false, float prop = 1.9f) {
 
 // Shoot amount (int disc) of disks, shoot at [int percPower] percent of flywheel power
 void shoot(int disc, int percPower) {
-    f1.target = (percPower * 0.01f) * 127;
-    f2.target = -(percPower * 0.01f) * 127;
+    disc += 1;
+    f1.target = -(percPower * 0.01f) * 127;
+    f2.target = (percPower * 0.01f) * 127;
 
     // Speed up flywheel
     pros::delay(2000);
@@ -289,8 +290,8 @@ void shoot(int disc, int percPower) {
         // Wait until flywheel is at speed (using power)
         if (percPower > 65) {
             int count = 0;
-            while (f1.motor->get_actual_velocity() < 205 * (0.01f * percPower)) {
-                if (count == 60 * 3) {
+            while (f1.motor->get_actual_velocity() < 190 * (0.01f * percPower)) {
+                if (count == 60 * 0.5f) {
                     break;
                 }
                 count += 1;
@@ -307,7 +308,7 @@ void shoot(int disc, int percPower) {
         i1.target = -127;
         pros::delay(100);
         while (!limitIndexer.get_new_press()) {
-            pros::delay(16);
+            pros::delay(100);
         }
 
         i1.target = 0;
@@ -330,7 +331,7 @@ void intakeOn() {
 void getRoller() {
     // Go forward and KEEP GOING without stopping the thread
     Task t(forwardDist, (void*)20);
-    t1.target = 127;
+    t1.target = -127;
     c::delay(180);
     t1.target = 0;
 }
@@ -377,8 +378,8 @@ void autoSkills() {
 void startAuto2() {
     if (!aggressive) {
 
-        shoot(2, 65);
-        forwardDist(480);
+        shoot(2, 85);
+        forwardDist(460);
         rotateClockwise(90);
         forwardDist(20);
         getRoller();
@@ -413,12 +414,14 @@ void startAuto3() {
         // PASSIVE
         getRoller();
         backDist(18);
-        rotateClockwise(83, false, 2.3f);
-        shoot(2, 65);
-        rotateClockwise(-214);
-        forwardDist(350);
+        rotateClockwise(90-10);
+        shoot(2, 90);
+        rotateClockwise(135);
+        forwardDist(350-100);
         intakeOn();
-        forwardDist(700, 32);
+        forwardDist(700+100, 32);
+        rotateClockwise(-120);
+        shoot(3, 70);
         // rotateClockwise(84, false, 2.0f);
         // shoot(3, 74);
 
