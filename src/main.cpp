@@ -173,8 +173,8 @@ void opcontrol() {
 				lowerLast = false;
 			}
 
-			f2.target = -96 + (32 * (0.01f * power));
-			f1.target = 96 + (-32 * (0.01f * power));
+			f2.target = 96 + (32 * (0.01f * power));
+			f1.target = -96 + (-32 * (0.01f * power));
 		} else {
 			f1.target = 0;
 			f2.target = 0;
@@ -210,6 +210,23 @@ void opcontrol() {
 			solenoid2.set_value(true);	
 		} else {
 			solenoid2.set_value(false);	
+		}
+
+		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_Y)) {
+			r1.target = 127;
+			r2.target = 127;
+			r3.target = 127;
+			l1.target = 127;
+			l2.target = 127;
+			l3.target = 127;
+		}
+		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
+			r1.target = -127;
+			r2.target = -127;
+			r3.target = -127;
+			l1.target = -127;
+			l2.target = -127;
+			l3.target = -127;
 		}
 
 		delay(20);
