@@ -340,36 +340,41 @@ void getRoller() {
 void autoSkills() {
     // Roller 1
     getRoller();
-    rotateClockwise(-15);
-    backDist(80);    
-    forwardDist(30);
-    rotateClockwise(-225, true);
+    backDist(20);
+    rotateClockwise(-45, false, 2.3f);
+    backDist(120);    
+    forwardDist(50);
+    rotateClockwise(-210+40, false);
     intakeOn();
     forwardDist(390);
     rotateClockwise(-45);
-    forwardDist(150);
+    forwardDist(110);
     
     // Maybe turn off intake between shots?
 
     // Roller 2
     getRoller();
+    intakeOn();
     backDist(20);
     rotateClockwise(90);
-    forwardDist(200);
+    forwardDist(800);
+    rotateClockwise(160, true);
     shoot(3, 100);
-    rotateClockwise(45);
-    forwardDist(1000);
-    rotateClockwise(-90);
-    shoot(3, 100);
-    rotateClockwise(-90);
-    forwardDist(2000);
-    rotateClockwise(45);
-    shoot(3, 100);
-    rotateClockwise(90);
-    forwardDist(100);
+    
+    // rotateClockwise(-135);
+    // intakeOn();
+    // forwardDist(1000);
+    // rotateClockwise(-90);
+    // shoot(3, 100);
+    // rotateClockwise(-90);
+    // forwardDist(2000);
+    // rotateClockwise(45);
+    // shoot(3, 100);
+    // rotateClockwise(90);
+    // forwardDist(100);
     
     // Roller 3
-    getRoller();
+    // getRoller();
 
 
 }
