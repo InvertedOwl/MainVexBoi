@@ -291,7 +291,7 @@ void shoot(int disc, int percPower) {
         if (percPower > 65) {
             int count = 0;
             while (f1.motor->get_actual_velocity() < 190 * (0.01f * percPower)) {
-                if (count == 60 * 0.5f) {
+                if (count == 60 * 0.2f) {
                     break;
                 }
                 count += 1;
