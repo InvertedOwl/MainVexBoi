@@ -198,10 +198,10 @@ void opcontrol() {
 		}
 
 		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1) && master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
-			t1.target = -60;
+			t1.target = 60;
 		}
 
-		if (partner.get_digital(pros::E_CONTROLLER_DIGITAL_UP) ||(master.get_digital(pros::E_CONTROLLER_DIGITAL_UP)) ) {
+		if ( master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT) && (master.get_digital(pros::E_CONTROLLER_DIGITAL_Y)) ) {
 			solenoid.set_value(true);
 		} else {
 			solenoid.set_value(false);
@@ -212,22 +212,6 @@ void opcontrol() {
 			solenoid2.set_value(false);	
 		}
 
-		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_Y)) {
-			r1.target = 127;
-			r2.target = 127;
-			r3.target = 127;
-			l1.target = 127;
-			l2.target = 127;
-			l3.target = 127;
-		}
-		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
-			r1.target = -127;
-			r2.target = -127;
-			r3.target = -127;
-			l1.target = -127;
-			l2.target = -127;
-			l3.target = -127;
-		}
 
 		delay(20);
 

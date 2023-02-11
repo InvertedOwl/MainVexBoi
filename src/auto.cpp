@@ -328,21 +328,21 @@ void intakeOn() {
 // Function for expansion is AUTOBOTS ROLL OUT!
 
 // Gets roller directly in front (Move forward and roller at the same time)
-void getRoller() {
+void getRoller (int time = 180) {
     // Go forward and KEEP GOING without stopping the thread
     Task t(forwardDist, (void*)20);
-    t1.target = -127;
-    c::delay(180);
+    t1.target = 127;
+    c::delay(time);
     t1.target = 0;
 }
 
 // Goblin mode
 void autoSkills() {
     // Roller 1
-    getRoller();
+    getRoller(180*2);
     backDist(20);
     rotateClockwise(-45, false, 2.3f);
-    backDist(120);    
+    backDist(125);    
     forwardDist(50);
     rotateClockwise(-210+40, false);
     intakeOn();
@@ -353,13 +353,33 @@ void autoSkills() {
     // Maybe turn off intake between shots?
 
     // Roller 2
-    getRoller();
+    getRoller(180*2);
     intakeOn();
     backDist(20);
-    rotateClockwise(90);
+    rotateClockwise(88);
     forwardDist(800);
     rotateClockwise(160, true);
     shoot(3, 100);
+
+    rotateClockwise(-45);
+    forwardDist(410);
+    rotateClockwise(-85);
+    forwardDist(800);
+    rotateClockwise(70);
+    backDist(100);
+    shoot(3, 100);
+    forwardDist(100);
+    rotateClockwise(-100);
+    forwardDist(500);
+    rotateClockwise(80);
+    forwardDist(600);
+    rotateClockwise(-90);
+    forwardDist(550);
+    getRoller(180*2);
+    backDist(50);
+    rotateClockwise(-135);
+
+    solenoid.set_value(true);
     
     // rotateClockwise(-135);
     // intakeOn();

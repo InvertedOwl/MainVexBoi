@@ -36,7 +36,7 @@ Imu imu(15);
 int color = 0;
 bool aggressive = false;
 
-int power = -50;
+int power = 100;
 
 lv_obj_t * console;
 lv_obj_t * consoleText;
