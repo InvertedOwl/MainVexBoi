@@ -2,16 +2,18 @@
 #include <sys/types.h>
 
 void PIDMotor::tick() {
+        const calculatedRPM = flywheelSpeed.get_velocity() / 6.0f; // Degrees per second to RPM
+        const calculatedTarget = (target/127.0f) * 3000; // RPM
 
         const double kP = 0.1;
         const double kI = 0.05;
         const double kD = 0.01;
 
         // Measure the current speed of the flywheel motor
-        double currentSpeed = motor->motor->get_actual_velocity();
+        double currentSpeed = calculatedRPM;
         
         // Calculate the error between the current speed and target speed
-        double error = target - currentSpeed;
+        double error = calculatedTarget - currentSpeed;
         
         // Add the error to the total error (for I term)
         totalError += error;

@@ -14,11 +14,9 @@ int sol = 127;
 
 bool unlocked = false;
 
-//derek fooling around with forking for education purposes
-
 void updateMotor() {
 	while (true) {
-        flywheel.target = (78 * 0.01f) * 127;
+        flywheel.tick();
 
 		i1.tick();
 
