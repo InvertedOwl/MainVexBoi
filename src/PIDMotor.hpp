@@ -7,15 +7,13 @@ class PIDMotor {
         MotorH *motor;
         MotorH *motor1;
 
-        PIDMotor(MotorH m, MotorH m1, pros::Rotation);
+        PIDMotor(MotorH m, MotorH m1);
 
         double totalError = 0;
         double prevError = 0;
 
         int target;
         int current;
-
-        pros::Rotation *flywheelSpeed;
 
         void tick();
 };
