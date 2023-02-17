@@ -1,5 +1,6 @@
 #include "PIDMotor.hpp"
 #include <sys/types.h>
+#include "globals.hpp"
 
 void PIDMotor::tick() {
         const float calculatedRPM = flywheelSpeed.get_velocity() / 6.0f; // Degrees per second to RPM
