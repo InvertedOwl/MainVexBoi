@@ -2,7 +2,7 @@
 #include <sys/types.h>
 
 void PIDMotor::tick() {
-        const float calculatedRPM = this->flywheelSpeed.get_velocity() / 6.0f; // Degrees per second to RPM
+        const float calculatedRPM = this->flywheelSpeed->get_velocity() / 6.0f; // Degrees per second to RPM
         const float calculatedTarget = (target/127.0f) * 3000; // RPM
 
         const double kP = 0.1;
@@ -33,5 +33,5 @@ PIDMotor::PIDMotor(MotorH m, MotorH m1, pros::Rotation speed)  {
     this->motor = &m;
     this->motor1 = &m1;
 
-    this->flywheelSpeed = speed;
+    this->flywheelSpeed = &speed;
 } 
