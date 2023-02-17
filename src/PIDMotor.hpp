@@ -15,7 +15,7 @@ class PIDMotor {
         int target;
         int current;
 
-        pros::Rotation flywheelSpeed;
+        pros::Rotation *flywheelSpeed;
 
         void tick();
 };
