@@ -18,8 +18,7 @@ bool unlocked = false;
 
 void updateMotor() {
 	while (true) {
-		f1.tick();
-		f2.tick();
+        flywheel.target = (78 * 0.01f) * 127;
 
 		i1.tick();
 
@@ -75,10 +74,9 @@ void autonomous() {
 	}
 }
 
-
 void opcontrol() {
 	bool lowerLast = false;
-	bool flywheel = false;
+	bool fly = false;
 	
 	// Loop
 	while (true) {
@@ -158,11 +156,11 @@ void opcontrol() {
 
 
 		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
-			flywheel = !flywheel;
+			fly = !fly;
 		}
 
 		// Flywheel + indexer controls
-		if (flywheel) {
+		if (fly) {
 
 			if (f1.motor->get_actual_velocity() > 200 * (( 96 + (32 * (0.01f * power))) / 127.0f) && !lowerLast) {
 				lowerLast = true;
@@ -173,18 +171,16 @@ void opcontrol() {
 				lowerLast = false;
 			}
 
-			f2.target = 96 + (32 * (0.01f * power));
-			f1.target = -96 + (-32 * (0.01f * power));
+			flywheel.target = 96 + (32 * (0.01f * power));
 		} else {
-			f1.target = 0;
-			f2.target = 0;
+			flywheel.target = 0;
 		}
 
 
 
 		//if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2) && flywheel && f1.motor->get_actual_velocity() > 200 * (( 96 + (32 * (0.01f * power))) / 127.0f)) {
 		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-			i1.target = -127;
+			i1.target = 127;
 		} else {
 			i1.target = 0;
 		}

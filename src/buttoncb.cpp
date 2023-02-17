@@ -94,13 +94,13 @@ lv_res_t startTest(lv_obj_t *) {
     pros::delay(1000);
 
     f1.target = 127;
-    f2.target = -127;
+    f2.target = 127;
     pros::delay(1000);
     f1.target = 0;
     f2.target = 0;
     pros::delay(1000);
     f1.target = 127;
-    f2.target = -127;
+    f2.target = 127;
     pros::delay(500);
     f1.target = 0;
     f2.target = 0;
@@ -111,7 +111,7 @@ lv_res_t startTest(lv_obj_t *) {
     pros::delay(1500);
     printToConsole("Done! Luv u dad");
 
-    return LV_RES_OK;
+    return LV_RES_OK; 
 }
 lv_res_t startAuto(lv_obj_t * btn) {
     if (spawn == 3) {

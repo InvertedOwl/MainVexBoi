@@ -5,6 +5,7 @@
 #include "MotorH.hpp"
 #include "pros/adi.hpp"
 #include "pros/imu.hpp"
+#include "PIDMotor.hpp"
 
 
 using namespace pros;
@@ -25,6 +26,9 @@ extern ADIDigitalOut solenoid2;
 extern ADIDigitalIn limitIndexer;
 extern int power;
 extern Imu imu;
+extern Rotation flywheelSpeed';
+
+extern PIDMotor flywheel;
 
 // - Config -
 extern std::vector<std::string> mapKeys;

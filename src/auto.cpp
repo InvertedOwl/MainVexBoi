@@ -276,8 +276,8 @@ void rotateClockwise(int degrees, bool forceBad = false, float prop = 1.9f) {
 // Shoot amount (int disc) of disks, shoot at [int percPower] percent of flywheel power
 void shoot(int disc, int percPower) {
     disc += 1;
-    f1.target = -(percPower * 0.01f) * 127;
-    f2.target = (percPower * 0.01f) * 127;
+    flywheel.target = (percPower * 0.01f) * 127;
+    flywheel.target = (percPower * 0.01f) * 127;
 
     // Speed up flywheel
     pros::delay(2000);
@@ -305,7 +305,7 @@ void shoot(int disc, int percPower) {
 
 
         // Index one disc
-        i1.target = -127;
+        i1.target = 127;
         pros::delay(100);
         while (!limitIndexer.get_new_press()) {
             pros::delay(100);
@@ -316,8 +316,8 @@ void shoot(int disc, int percPower) {
     }
     
     //spin back down
-    f1.target = 0;
-    f2.target = 0;
+    flywheel.target = 0;
+    flywheel.target = 0;
 }
 
 //turn intake on
@@ -452,14 +452,12 @@ void startAuto3() {
 
     } else {
         //AGGRESSIVE
-        f1.target = (78 * 0.01f) * 127;
-        f2.target = -(78 * 0.01f) * 127;
+        flywheel.target = (78 * 0.01f) * 127;
         getRoller();
         backDist(18);
         rotateClockwise(-18, false, 2.2f);
         shoot(2, 78);
-        f1.target = (74 * 0.01f) * 127;
-        f2.target = -(74 * 0.01f) * 127;
+        flywheel.target = (74 * 0.01f) * 127;
         // pros::delay(2000);
         rotateClockwise(-113, false, 1.9f);
         forwardDist(350);
@@ -536,4 +534,4 @@ void calibrate() {
     backwardSeconds((void*) &numSeconds); //move back to original position
 
     velocity = rawVelocity / (10 * numSeconds); //acceleration gathered every 1/10s, not 1s --> divide by 10 to get actual velocity - multiply by number of seconds to get meters a *second*
-}
+}         
