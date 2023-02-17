@@ -25,8 +25,10 @@ void PIDMotor::tick() {
     // prevError = error;
     
     // Set the motor speed to the PID output
-    motor->target = target;
-    motor1->target = target;
+    std::cout << "PID TICK" << std::endl;
+
+    motor->target = this->target;
+    motor1->target = this->target;
 }
 
 PIDMotor::PIDMotor(MotorH m, MotorH m1)  {

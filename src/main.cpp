@@ -20,7 +20,6 @@ void updateMotor() {
 		f1.tick();
 		f2.tick();
 
-
 		i1.tick();
 
 		t1.tick();
