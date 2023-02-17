@@ -17,6 +17,9 @@ bool unlocked = false;
 void updateMotor() {
 	while (true) {
         flywheel.tick();
+		f1.tick();
+		f2.tick();
+
 
 		i1.tick();
 
