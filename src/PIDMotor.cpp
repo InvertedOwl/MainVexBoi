@@ -33,5 +33,6 @@ PIDMotor::PIDMotor(MotorH m, MotorH m1)  {
     this->motor = &m;
     this->motor1 = &m1;
 
-    this->flywheelSpeed = new pros::Rotation(1);
+    Rotation r(1);
+    this->flywheelSpeed = r;
 } 
