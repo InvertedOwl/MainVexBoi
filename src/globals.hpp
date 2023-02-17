@@ -26,7 +26,6 @@ extern ADIDigitalOut solenoid2;
 extern ADIDigitalIn limitIndexer;
 extern int power;
 extern Imu imu;
-extern Rotation flywheelSpeed;
 
 extern PIDMotor flywheel;
 

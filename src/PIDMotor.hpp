@@ -15,5 +15,7 @@ class PIDMotor {
         int target;
         int current;
         
+        Rotation flywheelSpeed;
+
         void tick();
 };

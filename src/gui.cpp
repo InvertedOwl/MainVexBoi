@@ -26,7 +26,6 @@ MotorH i1(12, 25); // Indexer
 MotorH t1(13, 25); // Intake
 ADIDigitalOut solenoid(8); // ABC port
 ADIDigitalOut solenoid2(7); // ABC port
-Rotation flywheelSpeed(1); // Flywheel 
 Imu imu(15);
 double velocity = 0;
 
