@@ -1,6 +1,7 @@
 #include "main.h"
 #include "pros/motors.hpp"
 #include "MotorH.hpp"
+#include "globals.hpp"
 
 class PIDMotor {
     public:
