@@ -2,8 +2,8 @@
 #include <sys/types.h>
 
 void PIDMotor::tick() {
-        const calculatedRPM = flywheelSpeed.get_velocity() / 6.0f; // Degrees per second to RPM
-        const calculatedTarget = (target/127.0f) * 3000; // RPM
+        const float calculatedRPM = flywheelSpeed.get_velocity() / 6.0f; // Degrees per second to RPM
+        const float calculatedTarget = (target/127.0f) * 3000; // RPM
 
         const double kP = 0.1;
         const double kI = 0.05;
