@@ -29,9 +29,9 @@ void PIDMotor::tick() {
         motor1->target = output;
 }
 
-PIDMotor::PIDMotor(MotorH m, MotorH m1)  {
+PIDMotor::PIDMotor(MotorH m, MotorH m1, pros::Rotation speed)  {
     this->motor = &m;
     this->motor1 = &m1;
 
-    this->flywheelSpeed = pros::Rotation(1);
+    this->flywheelSpeed = speed;
 } 

@@ -7,7 +7,7 @@ class PIDMotor {
         MotorH *motor;
         MotorH *motor1;
 
-        PIDMotor(MotorH m, MotorH m1);
+        PIDMotor(MotorH m, MotorH m1, pros::Rotation);
 
         double totalError = 0;
         double prevError = 0;

@@ -21,7 +21,7 @@ Controller partner(E_CONTROLLER_PARTNER);
 //MotorH l1(1, 10), l2(2, 10), l3(3, 10), r1(11, 10), r2(5, s), r3(6, 25);
 MotorH l1(19, 25), l2(16, 25), l3(3, 25), r1(11, 25), r2(14, 25), r3(6, 25); // Drive l = left | r = right
 MotorH f1(18, 10, 4), f2(17, 10, 4); // Flywheel (doesnt matter which)
-PIDMotor flywheel(f1, f2); // TODO: IGNORE
+PIDMotor flywheel(f1, f2, pros::Rotation(1)); // TODO: IGNORE
 MotorH i1(12, 25); // Indexer
 MotorH t1(13, 25); // Intake
 ADIDigitalOut solenoid(8); // ABC port
