@@ -8,6 +8,8 @@
 #include <exception>
 #include <string>
 
+Rotation flywheelSpeed(1);
+
 /*GENERAL REFERENCE
 
 -field tile is 2ft (609.60 millimeters) by 2ft (609.60 millimeters)
@@ -320,6 +322,82 @@ void shoot(int disc, int percPower) {
     f2.target = 0;
 }
 
+void shoot2(int disc, double propPower) {
+    disc += 1;
+    //f1.target = (percPower * 0.01f) * 127;
+    //f2.target = (percPower * 0.01f) * 127;
+
+    //new math
+
+    f1.target = propPower * 127;
+    f2.target = propPower * 127;
+
+
+    // Speed up flywheel
+    pros::delay(2000);
+
+    // Indexer per disc
+    /*for (int i = 0; i < disc; i++) {
+        
+        
+
+        // Wait until flywheel is at speed (using power)
+        if (percPower > 65) {
+            int count = 0;
+            while (f1.motor->get_actual_velocity() < 190 * (0.01f * percPower)) {
+                if (count == 60 * 0.2f) {
+                    break;
+                }
+                count += 1;
+                pros::delay(16);
+            }
+            printToConsole(std::to_string(f1.motor->get_actual_velocity()));
+        } else {
+            pros::delay(500);
+        }
+
+
+
+        // Index one disc
+        i1.target = 127;
+        pros::delay(100);
+        while (!limitIndexer.get_new_press()) {
+            pros::delay(100);
+        }
+
+        i1.target = 0;
+        pros::delay(100);
+    }
+    */
+    for (int i = 0; i < disc; i++) {
+        while(flywheelSpeed.get_velocity() > -14650) {
+            pros::delay(100);
+            printToConsole("i waited");
+        }
+        printToConsole(std::to_string(flywheelSpeed.get_velocity()));
+        //pros::delay(600);
+        
+        //printToConsole("i tried to wait");
+
+         // Index one disc
+        i1.target = 127;
+        //pros::delay(100);
+        while (!limitIndexer.get_new_press()) {
+            pros::delay(80);
+        }
+
+        i1.target = 0;
+        pros::delay(100);
+        
+    }
+    
+    //spin back down
+    f1.target = 0;
+    f2.target = 0;
+}
+
+
+
 //turn intake on
 void intakeOn() {
     t1.target = 127;
@@ -452,7 +530,7 @@ void startAuto3() {
 
     } else {
         //AGGRESSIVE
-        f1.target = (78 * 0.01f) * 127;
+        /*f1.target = (78 * 0.01f) * 127;
         f2.target = (78 * 0.01f) * 127;
         getRoller();
         backDist(18);
@@ -467,6 +545,26 @@ void startAuto3() {
         forwardDist(700, 32);
         rotateClockwise(87, false, 2.0f);
         shoot(3, 74);
+        */
+        
+        /*f1.target = .75 * 127;
+        f2.target = .75 * 127;
+        double fieldRollerProp = 2;
+        getRoller(280);
+        backDist(30);
+        rotateClockwise(-15, false);
+        printToConsole("i rotated");
+        shoot2(2, .80);
+        */
+        rotateClockwise(-15, false);
+        shoot2(2, .85);
+
+        pros::delay(200);
+
+        rotateClockwise(15, false);
+        forwardDist(15);
+        getRoller(360);
+
     }
 }
 
