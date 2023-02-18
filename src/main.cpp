@@ -76,7 +76,7 @@ void autonomous() {
 
 void opcontrol() {
 	bool lowerLast = false;
-	bool fly = false;
+	bool fly = true;
 	
 	// Loop
 	while (true) {
@@ -195,21 +195,24 @@ void opcontrol() {
 			t1.target = 0;
 		}
 
-		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1) && master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
-			t1.target = 60;
-		}
-
-		if ( master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT) && (master.get_digital(pros::E_CONTROLLER_DIGITAL_Y)) ) {
+		//if right mod trigger pressed, fire all expansion - of only left, fire side expansion only
+		if (/*master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT) && */(master.get_digital(pros::E_CONTROLLER_DIGITAL_Y)) ) {
 			solenoid.set_value(true);
 		} else {
 			solenoid.set_value(false);
 		}
-		if (partner.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT) ||(master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT)) ) {
+
+		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
+			solenoid2.set_value(true);
+		} else {
+			solenoid2.set_value(false);
+		}
+		/*if (partner.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT) || (master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT)) ) {
 			solenoid2.set_value(true);	
 		} else {
 			solenoid2.set_value(false);	
 		}
-
+		*/
 
 		delay(20);
 
