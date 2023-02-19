@@ -39,7 +39,7 @@ c::adi_gyro_t gyro = c::adi_gyro_init(1, 0.1); // Gyro
 int color = 0;
 bool aggressive = false;
 
-int power = 100;
+int power = 0;
 
 lv_obj_t * console;
 lv_obj_t * consoleText;
