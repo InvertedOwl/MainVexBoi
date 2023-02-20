@@ -8,8 +8,6 @@
 #include <exception>
 #include <string>
 
-Rotation flywheelSpeed(1);
-
 /*GENERAL REFERENCE
 
 -field tile is 2ft (609.60 millimeters) by 2ft (609.60 millimeters)
@@ -190,7 +188,7 @@ void backDist(int mmDist) {
 }
 
 // New rotate function - allows non-optimised rotation
-void rotateClockwise(int degrees, bool forceBad = false, float prop = 1.9f) {
+void rotateClockwise(float degrees, bool forceBad = false, float prop = 1.9f) {
     // Init values
     float current = imu.get_heading();
     float target = current + degrees;
@@ -287,34 +285,22 @@ void shoot(int disc, int percPower) {
     // Indexer per disc
     for (int i = 0; i < disc; i++) {
         
-        
-
         // Wait until flywheel is at speed (using power)
-        if (percPower > 65) {
-            int count = 0;
-            while (f1.motor->get_actual_velocity() < 190 * (0.01f * percPower)) {
-                if (count == 60 * 0.2f) {
-                    break;
-                }
-                count += 1;
-                pros::delay(16);
-            }
-            printToConsole(std::to_string(f1.motor->get_actual_velocity()));
-        } else {
-            pros::delay(500);
+        while (!flywheel.isAtSpeed) {
+            pros::delay(16);
         }
-
-
+        printToConsole("Mathed: " + std::to_string(((rot.get_velocity() / -6.0f) / 3000.0f) * 128));
+        printToConsole("Direct: " +  std::to_string(rot.get_velocity()));
 
         // Index one disc
         i1.target = 127;
-        pros::delay(100);
+        // pros::delay(100);
         while (!limitIndexer.get_new_press()) {
             pros::delay(100);
         }
 
         i1.target = 0;
-        pros::delay(100);
+        pros::delay(25);
     }
     
     //spin back down
@@ -329,8 +315,8 @@ void shoot2(int disc, double propPower, int dps = -14650) {
 
     //new math
 
-    flywheel.target = propPower * 127;
-    flywheel.target = propPower * 127;
+    f1.target = propPower * 127;
+    f2.target = propPower * 127;
 
 
     // Speed up flywheel
@@ -370,11 +356,11 @@ void shoot2(int disc, double propPower, int dps = -14650) {
     }
     */
     for (int i = 0; i < disc; i++) {
-        while(flywheelSpeed.get_velocity() > dps) {
+        while(rot.get_velocity() > dps) {
             pros::delay(50);
             printToConsole("i waited");
         }
-        printToConsole(std::to_string(flywheelSpeed.get_velocity()));
+        printToConsole(std::to_string(rot.get_velocity()));
         //pros::delay(600);
         
         //printToConsole("i tried to wait");
@@ -393,8 +379,8 @@ void shoot2(int disc, double propPower, int dps = -14650) {
     }
     
     //spin back down
-    flywheel.target = 0;
-    flywheel.target = 0;
+    f1.target = 0;
+    f2.target = 0;
 }
 
 
@@ -557,28 +543,29 @@ void startAuto3() {
         printToConsole("i rotated");
         shoot2(2, .80);
         */
-        rotateClockwise(-14, false);
-        shoot2(2, .82);
+        flywheel.target = (.81f) * 127; 
+        rotateClockwise(-13.5f, false);
+        shoot(2, 81);
 
         //pros::delay(200);
 
-        //rotateClockwise(15, false, 1.65);
-        rotateClockwise(14, false, 1.965);
-        forwardDist(16);
-        getRoller(380);
+        // //rotateClockwise(15, false, 1.65);
+        // rotateClockwise(14, false, 1.965);
+        // forwardDist(16);
+        // getRoller(380);
 
-        backDist(25);
-        rotateClockwise(-120, false, 1.965);
-        t1.target = -127;
-        forwardDist(250, 80);
+        // backDist(25);
+        // rotateClockwise(-120, false, 1.965);
+        // t1.target = -127;
+        // forwardDist(250, 80);
 
-        t1.target = 127;
-        forwardDist(220, 60);
-        forwardDist(180, 30);
+        // t1.target = 127;
+        // forwardDist(220, 60);
+        // forwardDist(180, 30);
 
-        rotateClockwise(-120, false, 1.965);
-        //shoot2(3, .7);
-        shoot(3, 58);
+        // rotateClockwise(-120, false, 1.965);
+        // //shoot2(3, .7);
+        // shoot(3, 58);
 
     }
 }

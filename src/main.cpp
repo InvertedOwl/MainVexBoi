@@ -42,7 +42,6 @@ void initialize() {
 	initConfig();
 	initGui();
 
-	imu.reset();
 
 	master.rumble(".-");
 

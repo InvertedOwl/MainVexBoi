@@ -22,5 +22,7 @@ class PIDMotor {
         int target;
         int current;
 
+        bool isAtSpeed = false;
+
         void tick();
 };
