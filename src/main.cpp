@@ -171,8 +171,8 @@ void opcontrol() {
 				lowerLast = false;
 			}
 
-			f1.target = 96 + (32 * (0.01f * power));
-			f2.target = 96 + (32 * (0.01f * power));
+			f1.target = 89 + (32 * (0.01f * power)); //was 96 before
+			f2.target = 89 + (32 * (0.01f * power));
 		} else {
 			f2.target = 0;
 			f1.target = 0;
