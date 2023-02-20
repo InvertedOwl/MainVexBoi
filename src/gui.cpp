@@ -21,13 +21,15 @@ Controller partner(E_CONTROLLER_PARTNER);
 //MotorH l1(1, 10), l2(2, 10), l3(3, 10), r1(11, 10), r2(5, s), r3(6, 25);
 MotorH l1(19, 25), l2(16, 25), l3(3, 25), r1(11, 25), r2(14, 25), r3(6, 25); // Drive l = left | r = right
 MotorH f1(18, 10, 4), f2(17, 10, 4); // Flywheel (doesnt matter which)
-PIDMotor flywheel(f1, f2); // TODO: IGNORE
+pros::Rotation rot(1);
+PIDMotor flywheel(&f1, &f2); // TODO: IGNORE
 MotorH i1(12, 25); // Indexer
 MotorH t1(13, 25); // Intake
 ADIDigitalOut solenoid(8); // ABC port
 ADIDigitalOut solenoid2(7); // ABC port
 Imu imu(15);
 double velocity = 0;
+
 
 ADIDigitalIn limitIndexer(6);
 
@@ -169,7 +171,7 @@ void initGui() {
     lv_obj_align(PIDchart, NULL, LV_ALIGN_CENTER, 0, 0);
     lv_chart_set_type(PIDchart, LV_CHART_TYPE_LINE);   /*Show lines and points too*/
 
-    createButton(0, 0, 200, 35, setAgressive, autoScreen, "AGGRESSIIIVEE");
+    createButton(0, -300, 200, 35, setAgressive, autoScreen, "AGGRESSIIIVEE");
 
     PIDSeries = lv_chart_add_series(PIDchart, LV_COLOR_BLACK);
     TargetSeries = lv_chart_add_series(PIDchart, LV_COLOR_NAVY);

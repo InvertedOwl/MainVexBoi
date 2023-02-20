@@ -6,6 +6,7 @@
 #include "pros/adi.hpp"
 #include "pros/imu.hpp"
 #include "PIDMotor.hpp"
+#include "pros/rotation.hpp"
 
 
 using namespace pros;

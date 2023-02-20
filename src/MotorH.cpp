@@ -52,7 +52,7 @@ void MotorH::tick() {
     motor->move(this->current);
                
     // } 
-    std::cout << std::to_string(current) << std::endl;
+    // std::cout << std::to_string(current) << std::endl;
 
 }
 
