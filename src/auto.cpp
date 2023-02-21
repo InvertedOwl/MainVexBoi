@@ -274,31 +274,36 @@ void rotateClockwise(float degrees, bool forceBad = false, float prop = 1.9f) {
 }
 
 // Shoot amount (int disc) of disks, shoot at [int percPower] percent of flywheel power
-void shoot(int disc, int percPower) {
-    disc += 1;
+void shoot(int disc, int percPower, bool delay = true) {
+    //disc += 1;
     flywheel.target = (percPower * 0.01f) * 127;
     flywheel.target = (percPower * 0.01f) * 127;
 
     // Speed up flywheel
-    pros::delay(2000);
+    //pros::delay(2000);
+    if(delay = true) {
+        pros::delay(2000);
+    }
 
     // Indexer per disc
-    for (int i = 0; i < disc; i++) {
+    for (int i = 0; i <= disc; i++) {
         
         // Wait until flywheel is at speed (using power)
         while (!flywheel.isAtSpeed) {
             pros::delay(16);
+            //printToConsole(std::to_string(flywheel.isAtSpeed));
         }
-        printToConsole("Mathed: " + std::to_string(((rot.get_velocity() / -6.0f) / 3000.0f) * 128));
-        printToConsole("Direct: " +  std::to_string(rot.get_velocity()));
+        //printToConsole("Mathed: " + std::to_string(((rot.get_velocity() / -6.0f) / 3000.0f) * 128));
+        printToConsole(std::to_string(i) + std::to_string(rot.get_velocity()));
 
         // Index one disc
         i1.target = 127;
         // pros::delay(100);
         while (!limitIndexer.get_new_press()) {
-            pros::delay(100);
+            pros::delay(25);
+            //printToConsole("not pressed");
         }
-
+        //printToConsole(std::to_string(limitIndexer.get_new_press())); //print that indexer has returned
         i1.target = 0;
         pros::delay(25);
     }
@@ -543,9 +548,12 @@ void startAuto3() {
         printToConsole("i rotated");
         shoot2(2, .80);
         */
-        flywheel.target = (.81f) * 127; 
-        rotateClockwise(-13.5f, false);
-        shoot(2, 81);
+
+
+        flywheel.target = (.8f) * 127; 
+        //shoot(2, 80);
+        rotateClockwise(-12.2f, false);
+        shoot(2, 80, false);
 
         //pros::delay(200);
 

@@ -6,13 +6,13 @@ void PIDMotor::tick() {
     // - P loop -
 
     // Init values
-    const float kP = 1.0f;
-    const float currentSpeed = ((rot.get_velocity() / -6.0f) / 3000.0f) * 128; // DPS to -127 127 for error handling
-
+    //const float kP = .07f;
+    const float kP = .08f;
+    const float currentSpeed = ((rot.get_velocity() / -6.0f) / 3116.66f) * 127; // DPS to -127 127 for error handling
     // Error calc
     float error = target - currentSpeed;
 
-    if (std::abs(error) < 1) {
+    if (std::abs(error) < kP) {
         isAtSpeed = true;
     } else {
         isAtSpeed = false;
