@@ -559,15 +559,16 @@ void startAuto3() {
 
         backDist(24);
         rotateClockwise(-120, false, 1.965);
+        forwardDist(250, 127);
+
         t1.target = -127;
-        forwardDist(500, 80);
-
+        forwardDist(200, 60);
         t1.target = 127;
-        //forwardDist(220, 60);
-        forwardDist(350, 30);
+        forwardDist(300, 30);
 
-        rotateClockwise(98, false, 1.965);
-        shoot(3, 72);
+        // rotateClockwise(96, false, 1.965);
+        // shoot(3, 72);
+        
         //shoot(3, 58);
 
     }
