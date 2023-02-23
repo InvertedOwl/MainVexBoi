@@ -274,31 +274,36 @@ void rotateClockwise(float degrees, bool forceBad = false, float prop = 1.9f) {
 }
 
 // Shoot amount (int disc) of disks, shoot at [int percPower] percent of flywheel power
-void shoot(int disc, int percPower) {
-    disc += 1;
+void shoot(int disc, int percPower, bool delay = true) {
+    //disc += 1;
     flywheel.target = (percPower * 0.01f) * 127;
     flywheel.target = (percPower * 0.01f) * 127;
 
     // Speed up flywheel
-    pros::delay(2000);
+    //pros::delay(2000);
+    if(delay = true) {
+        pros::delay(2000);
+    }
 
     // Indexer per disc
-    for (int i = 0; i < disc; i++) {
+    for (int i = 0; i <= disc; i++) {
         
         // Wait until flywheel is at speed (using power)
         while (!flywheel.isAtSpeed) {
-            pros::delay(16);
+            pros::delay(10);
+            //printToConsole(std::to_string(flywheel.isAtSpeed));
         }
-        printToConsole("Mathed: " + std::to_string(((rot.get_velocity() / -6.0f) / 3000.0f) * 128));
-        printToConsole("Direct: " +  std::to_string(rot.get_velocity()));
+        //printToConsole("Mathed: " + std::to_string(((rot.get_velocity() / -6.0f) / 3000.0f) * 128));
+        printToConsole(std::to_string(i) + std::to_string(rot.get_velocity()));
 
         // Index one disc
         i1.target = 127;
         // pros::delay(100);
         while (!limitIndexer.get_new_press()) {
-            pros::delay(100);
+            pros::delay(25);
+            //printToConsole("not pressed");
         }
-
+        //printToConsole(std::to_string(limitIndexer.get_new_press())); //print that indexer has returned
         i1.target = 0;
         pros::delay(25);
     }
@@ -474,14 +479,10 @@ void startAuto2() {
         forwardDist(20);
         getRoller();
     } else {
-        forwardDist(460);
-        rotateClockwise(90, false, 1.8f);
-        forwardDist(20);
-        getRoller();
-
-        backDist(18);
-        // rotateClockwise(19, false, 2.5f);
-        shoot(2, 83);
+        rotateClockwise(27);
+        shoot(2, 84);
+        rotateClockwise(-90-27);
+        
 
         // rotateClockwise(18, false, 2.36f);
         // shoot(2, 91);
@@ -543,29 +544,32 @@ void startAuto3() {
         printToConsole("i rotated");
         shoot2(2, .80);
         */
-        flywheel.target = (.81f) * 127; 
-        rotateClockwise(-13.5f, false);
-        shoot(2, 81);
+
+
+        // //flywheel.target = (.8f) * 127; 
+        rotateClockwise(-11.8f, false);
+        shoot(2, 79, false);
 
         //pros::delay(200);
 
-        // //rotateClockwise(15, false, 1.65);
+        rotateClockwise(12, false, 1.65);
         // rotateClockwise(14, false, 1.965);
-        // forwardDist(16);
-        // getRoller(380);
+        forwardDist(16);
+        getRoller(380);
 
-        // backDist(25);
-        // rotateClockwise(-120, false, 1.965);
-        // t1.target = -127;
-        // forwardDist(250, 80);
+        backDist(24);
+        rotateClockwise(-120, false, 1.965);
+        forwardDist(250, 127);
 
-        // t1.target = 127;
-        // forwardDist(220, 60);
-        // forwardDist(180, 30);
+        t1.target = -127;
+        forwardDist(200, 60);
+        t1.target = 127;
+        forwardDist(300, 30);
 
-        // rotateClockwise(-120, false, 1.965);
-        // //shoot2(3, .7);
-        // shoot(3, 58);
+        // rotateClockwise(96, false, 1.965);
+        // shoot(3, 72);
+        
+        //shoot(3, 58);
 
     }
 }

@@ -172,6 +172,7 @@ void opcontrol() {
 
 			flywheel.target = 96 + (32 * (0.01f * power));
 			flywheel.target = 96 + (32 * (0.01f * power));
+			printToConsole(std::to_string(power));
 		} else {
 			flywheel.target = 0;
 			flywheel.target = 0;
