@@ -24,6 +24,7 @@ extern bool unlocked;
 extern Vision sensor;
 extern ADIDigitalOut solenoid;
 extern ADIDigitalOut solenoid2;
+extern ADIDigitalOut solenoid3;
 extern ADIDigitalIn limitIndexer;
 extern int power;
 extern Imu imu;
