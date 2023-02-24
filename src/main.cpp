@@ -90,11 +90,11 @@ void opcontrol() {
 			}
 		}
 		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
-			if (power > -50) {
+			if (power > -100) {
 				power -= 20;
 			}
 		}
-
+		printToConsole(std::to_string(power));
 		// // Vision
 		// vision_object_s_t obj = sensor.get_by_sig(0, 1);
     	// lv_obj_set_pos(visionResponse, obj.left_coord, obj.top_coord);
@@ -164,7 +164,7 @@ void opcontrol() {
 			if (f1.motor->get_actual_velocity() > 200 * (( 96 + (32 * (0.01f * power))) / 127.0f) && !lowerLast) {
 				lowerLast = true;
 
-				master.rumble("-");
+				//master.rumble("-");
 			}
 			if (f1.motor->get_actual_velocity() < 170) {
 				lowerLast = false;
@@ -172,7 +172,6 @@ void opcontrol() {
 
 			flywheel.target = 96 + (32 * (0.01f * power));
 			flywheel.target = 96 + (32 * (0.01f * power));
-			printToConsole(std::to_string(power));
 		} else {
 			flywheel.target = 0;
 			flywheel.target = 0;
