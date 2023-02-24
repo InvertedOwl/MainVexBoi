@@ -207,6 +207,12 @@ void opcontrol() {
 		} else {
 			solenoid2.set_value(false);
 		}
+
+		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_B)) {
+			solenoid3.set_value(true);
+		} else {
+			solenoid3.set_value(false);
+		}
 		/*if (partner.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT) || (master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT)) ) {
 			solenoid2.set_value(true);	
 		} else {
