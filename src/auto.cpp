@@ -313,83 +313,6 @@ void shoot(int disc, int percPower, bool delay = true) {
     flywheel.target = 0;
 }
 
-void shoot2(int disc, double propPower, int dps = -14650) {
-    disc += 1;
-    //f1.target = (percPower * 0.01f) * 127;
-    //f2.target = (percPower * 0.01f) * 127;
-
-    //new math
-
-    f1.target = propPower * 127;
-    f2.target = propPower * 127;
-
-
-    // Speed up flywheel
-    pros::delay(2000);
-
-    // Indexer per disc
-    /*for (int i = 0; i < disc; i++) {
-        
-        
-
-        // Wait until flywheel is at speed (using power)
-        if (percPower > 65) {
-            int count = 0;
-            while (f1.motor->get_actual_velocity() < 190 * (0.01f * percPower)) {
-                if (count == 60 * 0.2f) {
-                    break;
-                }
-                count += 1;
-                pros::delay(16);
-            }
-            printToConsole(std::to_string(f1.motor->get_actual_velocity()));
-        } else {
-            pros::delay(500);
-        }
-
-
-
-        // Index one disc
-        i1.target = 127;
-        pros::delay(100);
-        while (!limitIndexer.get_new_press()) {
-            pros::delay(100);
-        }
-
-        i1.target = 0;
-        pros::delay(100);
-    }
-    */
-    for (int i = 0; i < disc; i++) {
-        while(rot.get_velocity() > dps) {
-            pros::delay(50);
-            printToConsole("i waited");
-        }
-        printToConsole(std::to_string(rot.get_velocity()));
-        //pros::delay(600);
-        
-        //printToConsole("i tried to wait");
-
-        
-
-         // Index one disc
-        i1.target = 127;
-        //pros::delay(100);
-        while (!limitIndexer.get_new_press()) {
-            pros::delay(90);
-        }
-
-        i1.target = 0;
-        pros::delay(25);
-    }
-    
-    //spin back down
-    f1.target = 0;
-    f2.target = 0;
-}
-
-
-
 //turn intake on
 void intakeOn() {
     t1.target = 127;
@@ -547,28 +470,30 @@ void startAuto3() {
 
 
         // //flywheel.target = (.8f) * 127; 
-        rotateClockwise(-11.8f, false);
-        shoot(2, 79, false);
+        rotateClockwise(-11.5f, false);
+        shoot(2, 81, false);
 
         //pros::delay(200);
 
-        rotateClockwise(12, false, 1.65);
+        rotateClockwise(11.5, false, 1.65);
         // rotateClockwise(14, false, 1.965);
         forwardDist(16);
         getRoller(380);
 
         backDist(24);
         rotateClockwise(-120, false, 1.965);
-        forwardDist(250, 127);
+        forwardDist(335, 120);
 
-        t1.target = -127;
-        forwardDist(200, 60);
+        //t1.target = -127;
+        //forwardDist(150, 127);
         t1.target = 127;
-        forwardDist(300, 30);
+        forwardDist(440, 30);
 
-        // rotateClockwise(96, false, 1.965);
-        // shoot(3, 72);
-        
+        //rotateClockwise(98, false, 2.0);
+        rotateClockwise(101, false);
+
+        shoot(3, 73);
+        t1.target = 0;        
         //shoot(3, 58);
 
     }
