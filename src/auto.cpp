@@ -404,7 +404,23 @@ void startAuto2() {
     } else {
         rotateClockwise(27);
         shoot(2, 84);
-        rotateClockwise(-90-27);
+        rotateClockwise(-100);
+        forwardDist(400);
+        rotateClockwise(90);
+        forwardDist(50);
+        getRoller();
+        backDist(30);
+        rotateClockwise(90+20);
+        intakeOn();
+        forwardDist(520);
+        // rotateClockwise(10);
+        // rotateClockwise(20);
+        flywheel.target = 50;
+        forwardDist(800);
+        rotateClockwise(-90);
+        shoot(3, 69);
+        rotateClockwise(-20);
+        
         
 
         // rotateClockwise(18, false, 2.36f);
