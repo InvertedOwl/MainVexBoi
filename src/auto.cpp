@@ -187,6 +187,60 @@ void backDist(int mmDist) {
     stop();
 }
 
+// Task allowed
+void rotateClockwise(void* deg) {
+    float degrees = ((int)deg)/10.0f;
+    // Init values
+    float current = imu.get_heading();
+    float target = current + degrees;
+    float error = target-current;
+
+    // PID Val init
+    float kP = 1.9f;
+    float kD = 0.15f;
+    float kI = 0.009f;
+    float integral = 0;
+
+    error = fix180(error);
+
+    float deriv;
+    float lastError = error;
+
+        // PD loop with I term
+    while (std::abs(error) > 6) {
+        current = imu.get_heading();
+        // Plot PD but no workie
+        lv_chart_set_next(PIDchart, PIDSeries, current);
+        lv_chart_set_next(PIDchart, TargetSeries, target);
+
+        // Get error and fix to (-180 | 180)
+        error = target-current;
+        error = fix180(error);
+
+        // Calculate the derivative
+        deriv = error-lastError;
+        lastError = error;
+
+        // Calculate integral
+
+        // Use values Derivative, Proportional and Integral to get output value
+        if (std::abs(error) < 15) {
+            integral += error;
+
+        }
+        float out = (error * kP) + (deriv * kD) + (integral * kI);
+
+        // Set values
+        rdSet(out);
+        ldSet(out);
+
+        // 62-ish TPS
+        pros::delay(16);
+    }
+
+    stop();
+}
+
 // New rotate function - allows non-optimised rotation
 void rotateClockwise(float degrees, bool forceBad = false, float prop = 1.9f) {
     // Init values
@@ -402,7 +456,7 @@ void startAuto2() {
         forwardDist(20);
         getRoller();
     } else {
-        rotateClockwise(27);
+        Task t(rotateClockwise, (void*) 270);
         shoot(2, 84);
         rotateClockwise(-100);
         forwardDist(400);
@@ -487,7 +541,8 @@ void startAuto3() {
 
         // //flywheel.target = (.8f) * 127;
         
-        rotateClockwise(-11.5f, false);
+        // rotateClockwise(-11.5f, false);
+        Task t(rotateClockwise, (void*) -115);
         shoot(2, 81, false);
 
         //pros::delay(200);
