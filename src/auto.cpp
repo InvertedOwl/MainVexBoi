@@ -485,7 +485,8 @@ void startAuto3() {
         */
 
 
-        // //flywheel.target = (.8f) * 127; 
+        // //flywheel.target = (.8f) * 127;
+        
         rotateClockwise(-11.5f, false);
         shoot(2, 81, false);
 
