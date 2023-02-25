@@ -109,9 +109,6 @@ void forwardPID (int mmDi) {
     float deriv;
     float lastError = error;
 
-    //kk need this explained like wut - derek
-    // Its the PD loop :) - Wes
-
     // PD loop
     while (std::abs(error) > 6) {
         initalDegrees = imu.get_heading();
@@ -333,9 +330,7 @@ void shoot(int disc, int percPower, bool delay = true) {
     flywheel.target = (percPower * 0.01f) * 127;
     flywheel.target = (percPower * 0.01f) * 127;
 
-    // Speed up flywheel
-    //pros::delay(2000);
-    if(delay = true) {
+    if(delay = true) { // TODO: What??
         pros::delay(2000);
     }
 
@@ -345,9 +340,7 @@ void shoot(int disc, int percPower, bool delay = true) {
         // Wait until flywheel is at speed (using power)
         while (!flywheel.isAtSpeed) {
             pros::delay(10);
-            //printToConsole(std::to_string(flywheel.isAtSpeed));
         }
-        //printToConsole("Mathed: " + std::to_string(((rot.get_velocity() / -6.0f) / 3000.0f) * 128));
         printToConsole(std::to_string(i) + std::to_string(rot.get_velocity()));
 
         // Index one disc
@@ -372,8 +365,6 @@ void intakeOn() {
     t1.target = 127;
 }
 
-// Function for expansion is AUTOBOTS ROLL OUT!
-
 // Gets roller directly in front (Move forward and roller at the same time)
 void getRoller (int time = 180) {
     // Go forward and KEEP GOING without stopping the thread
@@ -397,8 +388,6 @@ void autoSkills() {
     rotateClockwise(-45);
     forwardDist(110);
     
-    // Maybe turn off intake between shots?
-
     // Roller 2
     getRoller(180*2);
     intakeOn();
@@ -427,33 +416,17 @@ void autoSkills() {
     rotateClockwise(-135);
 
     solenoid.set_value(true);
-    
-    // rotateClockwise(-135);
-    // intakeOn();
-    // forwardDist(1000);
-    // rotateClockwise(-90);
-    // shoot(3, 100);
-    // rotateClockwise(-90);
-    // forwardDist(2000);
-    // rotateClockwise(45);
-    // shoot(3, 100);
-    // rotateClockwise(90);
-    // forwardDist(100);
-    
-    // Roller 3
-    // getRoller();
-
-
 }
 
 // Right auto
 void startAuto2() {
     if (!aggressive) {
-
-        shoot(2, 85);
-        forwardDist(460);
+        Task t(rotateClockwise, (void*) 270);
+        shoot(2, 84);
+        rotateClockwise(-100);
+        forwardDist(400);
         rotateClockwise(90);
-        forwardDist(20);
+        forwardDist(50);
         getRoller();
     } else {
         Task t(rotateClockwise, (void*) 270);
@@ -467,33 +440,16 @@ void startAuto2() {
         rotateClockwise(90+20);
         intakeOn();
         forwardDist(520);
-        // rotateClockwise(10);
-        // rotateClockwise(20);
         flywheel.target = 50;
         forwardDist(800);
         rotateClockwise(-90);
         shoot(3, 69);
         rotateClockwise(-20);
-        
-        
-
-        // rotateClockwise(18, false, 2.36f);
-        // shoot(2, 91);
-        // rotateClockwise(-90-18);
-        // forwardDist(508);
-        // rotateClockwise(90);
-        // forwardDist(65);
-        // getRoller();
     }
 }
 
 // Left auto
 void startAuto3() {
-    // 0
-    // - 18
-    // - 131
-    // 131 + 83
-
     if (!aggressive) {
         // PASSIVE
         getRoller();
@@ -506,68 +462,28 @@ void startAuto3() {
         forwardDist(700+100, 32);
         rotateClockwise(-120);
         shoot(3, 70);
-        // rotateClockwise(84, false, 2.0f);
-        // shoot(3, 74);
 
     } else {
-        //AGGRESSIVE
-        /*f1.target = (78 * 0.01f) * 127;
-        f2.target = (78 * 0.01f) * 127;
-        getRoller();
-        backDist(18);
-        rotateClockwise(-18, false, 2.2f);
-        shoot(2, 78);
-        f1.target = (74 * 0.01f) * 127;
-        f2.target = (74 * 0.01f) * 127;
-        // pros::delay(2000);
-        rotateClockwise(-113, false, 1.9f);
-        forwardDist(350);
-        intakeOn();
-        forwardDist(700, 32);
-        rotateClockwise(87, false, 2.0f);
-        shoot(3, 74);
-        */
-        
-        /*f1.target = .75 * 127;
-        f2.target = .75 * 127;
-        double fieldRollerProp = 2;
-        getRoller(280);
-        backDist(30);
-        rotateClockwise(-15, false);
-        printToConsole("i rotated");
-        shoot2(2, .80);
-        */
-
-
-        // //flywheel.target = (.8f) * 127;
         
         // rotateClockwise(-11.5f, false);
         Task t(rotateClockwise, (void*) -115);
-        shoot(2, 81, false);
-
-        //pros::delay(200);
+        shoot(2, 82, false);
 
         rotateClockwise(11.5, false, 1.65);
-        // rotateClockwise(14, false, 1.965);
         forwardDist(16);
-        getRoller(380);
+        getRoller(360);
 
-        backDist(24);
+        backDist(28);
         rotateClockwise(-120, false, 1.965);
         forwardDist(335, 120);
 
-        //t1.target = -127;
-        //forwardDist(150, 127);
         t1.target = 127;
         forwardDist(440, 30);
 
-        //rotateClockwise(98, false, 2.0);
         rotateClockwise(101, false);
 
         shoot(3, 73);
         t1.target = 0;        
-        //shoot(3, 58);
-
     }
 }
 

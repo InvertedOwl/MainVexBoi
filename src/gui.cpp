@@ -40,7 +40,7 @@ bool inAuto = false;
 c::adi_gyro_t gyro = c::adi_gyro_init(1, 0.1); // Gyro
 
 int color = 0;
-bool aggressive = false;
+bool aggressive = true;
 
 int power = -60;
 
@@ -172,7 +172,7 @@ void initGui() {
     lv_obj_align(PIDchart, NULL, LV_ALIGN_CENTER, 0, 0);
     lv_chart_set_type(PIDchart, LV_CHART_TYPE_LINE);   /*Show lines and points too*/
 
-    createButton(0, 0, 200, 35, setAgressive, autoScreen, "AGGRESSIIIVEE");
+    createButton(0, 0, 200, 35, setAgressive, autoScreen, "passive");
 
     PIDSeries = lv_chart_add_series(PIDchart, LV_COLOR_BLACK);
     TargetSeries = lv_chart_add_series(PIDchart, LV_COLOR_NAVY);
@@ -188,8 +188,8 @@ void initGui() {
     lv_obj_set_style(buttonBG, &lv_style_pretty);
 
 
-    createButton(55, 55, 100, 35, start3, buttonBG, "Set 3");
-    createButton(-55, 55, 100, 35, start2, buttonBG, "Set 2");
+    createButton(55, 55, 100, 35, start3, buttonBG, "Set Left");
+    createButton(-55, 55, 100, 35, start2, buttonBG, "Set Right");
     createButton(0, 0, 100, 35, startSkills, buttonBG, "Goblin Mode");
 
 

@@ -40,7 +40,7 @@ lv_res_t toggle_button(lv_obj_t * btn) {
 }
 
 lv_res_t setAgressive(lv_obj_t * btn) {
-    aggressive = true;
+    aggressive = false;
 
     if (spawn == 3) {
         lv_label_set_text(autoInfo, "Roller Start Aggressive");
