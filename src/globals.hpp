@@ -52,6 +52,8 @@ extern int color;
 extern bool aggressive;
 extern double velocity;
 
+extern bool isDisabled;
+
 // - GUI -
 extern void createButton(int, int, int, int, lv_action_t, lv_obj_t *, const char *);
 extern void printToConsole(std::string);

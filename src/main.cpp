@@ -16,6 +16,10 @@ bool unlocked = false;
 
 void updateMotor() {
 	while (true) {
+
+		if (isDisabled) {
+			return;
+		}
         flywheel.tick();
 		f1.tick();
 		f2.tick();
@@ -56,7 +60,7 @@ void initialize() {
 }
 
 void disabled() {
-	std::cout << "Goodbye world!" << std::endl;
+	isDisabled = true;
 }
 
 void competition_initialize() {}
@@ -182,6 +186,11 @@ void opcontrol() {
 		//if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2) && flywheel && f1.motor->get_actual_velocity() > 200 * (( 96 + (32 * (0.01f * power))) / 127.0f)) {
 		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
 			i1.target = 127;
+        	while (!limitIndexer.get_new_press()) {
+            pros::delay(25);
+        }
+        //printToConsole(std::to_string(limitIndexer.get_new_press())); //print that indexer has returned
+        i1.target = 0;
 		} else {
 			i1.target = 0;
 		}

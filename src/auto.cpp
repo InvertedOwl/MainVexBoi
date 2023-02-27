@@ -465,16 +465,17 @@ void startAuto3() {
 
     } else {
         
-        // rotateClockwise(-11.5f, false);
+        //rotateClockwise(-11.5f, false);
         Task t(rotateClockwise, (void*) -115);
-        shoot(2, 82, false);
+        shoot(2, 83, false);
 
         rotateClockwise(11.5, false, 1.65);
         forwardDist(16);
         getRoller(360);
 
         backDist(28);
-        rotateClockwise(-120, false, 1.965);
+        rotateClockwise(-125, false, 1.965);
+        t1.target = -127;
         forwardDist(335, 120);
 
         t1.target = 127;
